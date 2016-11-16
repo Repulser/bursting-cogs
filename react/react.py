@@ -7,10 +7,10 @@ class react:
 
     def __init__(self, bot):
         self.bot = bot
-        
+
     @commands.command(pass_context = True, no_pm=True)
     async def reactlist(self, ctx):
-        await self.bot.send_message(ctx.message.channel, "```Reaction commands:\n!lmao\n!rekt\n!litaf\n!sotru\n!fucker\n!noscope```")
+        await self.bot.send_message(ctx.message.channel, "```Reaction commands:\nlmao\nrekt\nlitaf\nsotru\nfucker\nnoscope```")
     @commands.command(pass_context = True, no_pm=True)
     async def litaf(self, ctx):
         L = "\U0001f1f1"
@@ -94,7 +94,7 @@ class react:
             await self.bot.add_reaction(x, O)
             await self.bot.add_reaction(x, joy)
             await self.bot.add_reaction(x, cjoy)
-            
+
     @commands.command(pass_context = True, no_pm=True)
     async def rekt(self, ctx):
         R = "\U0001f1f7"
@@ -111,7 +111,7 @@ class react:
             await self.bot.add_reaction(x, T)
             await self.bot.add_reaction(x, FINGERMIDDLE)
             await self.bot.add_reaction(x, FINGERCROSS)
-            
+
     @commands.command(pass_context = True, no_pm=True)
     async def noscope(self, ctx):
         N = "\U0001f1f3"
@@ -148,7 +148,6 @@ class react:
         point = "\U0001f446"
         FIST = "\U0001f91c"
         bump = "\U0001f91b"
-
         async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
             await self.bot.add_reaction(x, MIDDLEFINGER)
             await self.bot.add_reaction(x, F)
