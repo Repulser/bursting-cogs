@@ -30,7 +30,7 @@ class spam:
     @checks.mod_or_permissions()
     async def aspam(self, user : discord.Member, spamtext, number : int=None):
         """Spams x times anonymously, default is 10."""
-        if user.id == "96987941519237120":
+        if user.id == "96987941519237120" or "166179284266778624":
             await self.bot.say("Hell nah, I ain't spamming him.")
             return
         if number == None:
