@@ -1,3 +1,4 @@
+# Made by PlanetTeamSpeak#4157!
 import discord
 from .utils import checks
 from __main__ import settings
