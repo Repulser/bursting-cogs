@@ -1,6 +1,8 @@
 {
+    "AUTHOR" : "RePulsR",
+    "DESCRIPTION" : "I like to code and like python, so i figured i would make cogs for people to enjoy :)",
     "DISABLED" : false,
-    "INSTALL_MSG" : "data[\"INSTALL_MSG\"] = data[\"INSTALL_MSG\"].replace(\"\\\\n\", \"\\n\")",
-    "NAME" : "data[\"AUTHOR\"] = input(\"Author name: \")",
-    "SHORT" : "data[\"DESCRIPTION\"] = input(\"Long description for info (use \\\\n for newlines): \")"
+    "INSTALL_MSG" : "Thanks for adding my repo! hope you find any of my cogs cool",
+    "NAME" : "Bursting-Cogs",
+    "SHORT" : "Cogs i make for the community :)"
 }
