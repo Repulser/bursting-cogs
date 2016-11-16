@@ -1,0 +1,6 @@
+{
+    "DISABLED" : false,
+    "INSTALL_MSG" : "data[\"INSTALL_MSG\"] = data[\"INSTALL_MSG\"].replace(\"\\\\n\", \"\\n\")",
+    "NAME" : "data[\"AUTHOR\"] = input(\"Author name: \")",
+    "SHORT" : "data[\"DESCRIPTION\"] = input(\"Long description for info (use \\\\n for newlines): \")"
+}
