@@ -25,7 +25,7 @@ class spam:
                 await self.bot.say("Hehe, {} got spammed {} time!".format(user.mention, counter))
             else:
                 await self.bot.say("Hehe, {} got spammed {} times!".format(user.mention, counter))
-    @checks.is_owner()            
+    @checks.is_owner()
     @commands.command(hidden=True)
     async def aspam(self, user : discord.Member, spamtext, number : int=None):
         """Spams x times anonymously, default is 10."""
@@ -39,7 +39,7 @@ class spam:
         while counter < number:
             await self.bot.send_message(user, "{}".format(spamtext))
             counter = counter + 1
-    @checks.is_owner()           
+    @checks.is_owner()
     @commands.command(pass_context = True)
     async def cspam(self, ctx, spamtext, number : int=None):
         """Spams x times in the channel, default is 10."""
@@ -49,7 +49,7 @@ class spam:
         while counter < number:
             await self.bot.say("{}, sent by **{}**.".format(spamtext, ctx.message.author))
             counter = counter + 1  
-    @checks.is_owner()  
+    @checks.is_owner()
     @commands.command(pass_context = True)
     async def acspam(self, ctx, spamtext, number : int=None):
         """Spams x times in the channel anonymously, default is 10."""
