@@ -21,7 +21,7 @@ class react:
         listr = [dictionary[char] for char in a]
         lenstr = len(reaction)
         if lenstr > 8:
-                await self.bot.say("Length cant be more than 9 charachters")
+                await self.bot.say("Length cant be more than 9 characters")
         elif lenstr == 8:
             async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
                 await self.bot.add_reaction(x, listr[0])
