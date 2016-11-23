@@ -7,10 +7,81 @@ class react:
 
     def __init__(self, bot):
         self.bot = bot
+        dictionary = { "A" : "\U0001f1e6", "B": "\U0001f1e7", "C": "\U0001f1e8", "D": "\U0001f1e9", "E":  "\U0001f1ea", "F": "\U0001f1eb", "G": "\U0001f1ec", "H" : "\U0001f1ed", "I": "\U0001f1ee", "J": "\U0001f1ef", "K" : "\U0001f1f0", "L": "\U0001f1f1", "M" : "\U0001f1f2", "N" : "\U0001f1f3", "O" : "\U0001f1f4", "P" : "\U0001f1f5", "Q" : "\U0001f1f6",  "R" : "\U0001f1f7", "S" : "\U0001f1f8", "T" : "\U0001f1f9", "U" : "\U0001f1fa", "V" : "\U0001f1fb", "W" : "\U0001f1fc", "X" : "\U0001f1fd", "Y" : "\U0001f1fe", "Z" : "\U0001f1ff"}
+
+
 
     @commands.command(pass_context = True, no_pm=True)
     async def reactlist(self, ctx):
-        await self.bot.send_message(ctx.message.channel, "```Reaction commands:\nlmao\nrekt\nlitaf\nsotru\nfucker\nnoscope```")
+        await self.bot.send_message(ctx.message.channel, "```Reaction commands:\n!lmao\n!rekt\n!litaf\n!sotru\n!fucker\n!noscope```")
+    @commands.command(pass_context = True, no_pm=True)
+    async def react(self, ctx, *, reaction):
+        dictionary = { "A" : "\U0001f1e6", "B": "\U0001f1e7", "C": "\U0001f1e8", "D": "\U0001f1e9", "E":  "\U0001f1ea", "F": "\U0001f1eb", "G": "\U0001f1ec", "H" : "\U0001f1ed", "I": "\U0001f1ee", "J": "\U0001f1ef", "K" : "\U0001f1f0", "L": "\U0001f1f1", "M" : "\U0001f1f2", "N" : "\U0001f1f3", "O" : "\U0001f1f4", "P" : "\U0001f1f5", "Q" : "\U0001f1f6",  "R" : "\U0001f1f7", "S" : "\U0001f1f8", "T" : "\U0001f1f9", "U" : "\U0001f1fa", "V" : "\U0001f1fb", "W" : "\U0001f1fc", "X" : "\U0001f1fd", "Y" : "\U0001f1fe", "Z" : "\U0001f1ff"}
+        a = reaction
+        listr = [dictionary[char] for char in a]
+        lenstr = len(reaction)
+        if lenstr > 8:
+                await self.bot.say("Length cant be more than 9 charachters")
+        elif lenstr == 8:
+            async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
+                await self.bot.add_reaction(x, listr[0])
+                await self.bot.add_reaction(x, listr[1])
+                await self.bot.add_reaction(x, listr[2])
+                await self.bot.add_reaction(x, listr[3])
+                await self.bot.add_reaction(x, listr[4])
+                await self.bot.add_reaction(x, listr[5])
+                await self.bot.add_reaction(x, listr[6])
+                await self.bot.add_reaction(x, listr[7])
+        elif lenstr == 7:
+            async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
+                await self.bot.add_reaction(x, listr[0])
+                await self.bot.add_reaction(x, listr[1])
+                await self.bot.add_reaction(x, listr[2])
+                await self.bot.add_reaction(x, listr[3])
+                await self.bot.add_reaction(x, listr[4])
+                await self.bot.add_reaction(x, listr[5])
+                await self.bot.add_reaction(x, listr[6])
+
+        elif lenstr == 6:
+            async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
+                await self.bot.add_reaction(x, listr[0])
+                await self.bot.add_reaction(x, listr[1])
+                await self.bot.add_reaction(x, listr[2])
+                await self.bot.add_reaction(x, listr[3])
+                await self.bot.add_reaction(x, listr[4])
+                await self.bot.add_reaction(x, listr[5])
+        elif lenstr == 5:
+            async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
+                await self.bot.add_reaction(x, listr[0])
+                await self.bot.add_reaction(x, listr[1])
+                await self.bot.add_reaction(x, listr[2])
+                await self.bot.add_reaction(x, listr[3])
+                await self.bot.add_reaction(x, listr[4])
+
+        elif lenstr == 4:
+            async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
+                await self.bot.add_reaction(x, listr[0])
+                await self.bot.add_reaction(x, listr[1])
+                await self.bot.add_reaction(x, listr[2])
+                await self.bot.add_reaction(x, listr[3])
+
+        elif lenstr == 3:
+            async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
+                await self.bot.add_reaction(x, listr[0])
+                await self.bot.add_reaction(x, listr[1])
+                await self.bot.add_reaction(x, listr[2])
+
+        elif lenstr == 2:
+            async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
+                await self.bot.add_reaction(x, listr[0])
+                await self.bot.add_reaction(x, listr[1])
+        elif lenstr == 1:
+            async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
+                await self.bot.add_reaction(x, listr[0])
+
+        else:
+            await self.bot.say("Fatal error")
+
     @commands.command(pass_context = True, no_pm=True)
     async def litaf(self, ctx):
         L = "\U0001f1f1"
@@ -148,6 +219,7 @@ class react:
         point = "\U0001f446"
         FIST = "\U0001f91c"
         bump = "\U0001f91b"
+
         async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
             await self.bot.add_reaction(x, MIDDLEFINGER)
             await self.bot.add_reaction(x, F)
