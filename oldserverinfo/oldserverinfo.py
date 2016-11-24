@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from cogs.utils import checks
 
 class serverinfo:
     @commands.command(pass_context=True, no_pm=True)
