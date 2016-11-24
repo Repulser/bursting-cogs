@@ -3,6 +3,9 @@ from discord.ext import commands
 from cogs.utils import checks
 
 class oldserverinfo:
+    def __init__(self, bot):
+        self.bot = bot
+        
     @commands.command(pass_context=True, no_pm=True)
     async def oldserverinfo(self, ctx):
         """Shows server's informations"""
