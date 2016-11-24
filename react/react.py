@@ -7,77 +7,114 @@ class react:
 
     def __init__(self, bot):
         self.bot = bot
-        dictionary = { "A" : "\U0001f1e6", "B": "\U0001f1e7", "C": "\U0001f1e8", "D": "\U0001f1e9", "E":  "\U0001f1ea", "F": "\U0001f1eb", "G": "\U0001f1ec", "H" : "\U0001f1ed", "I": "\U0001f1ee", "J": "\U0001f1ef", "K" : "\U0001f1f0", "L": "\U0001f1f1", "M" : "\U0001f1f2", "N" : "\U0001f1f3", "O" : "\U0001f1f4", "P" : "\U0001f1f5", "Q" : "\U0001f1f6",  "R" : "\U0001f1f7", "S" : "\U0001f1f8", "T" : "\U0001f1f9", "U" : "\U0001f1fa", "V" : "\U0001f1fb", "W" : "\U0001f1fc", "X" : "\U0001f1fd", "Y" : "\U0001f1fe", "Z" : "\U0001f1ff"}
-
-
 
     @commands.command(pass_context = True, no_pm=True)
     async def reactlist(self, ctx):
-        await self.bot.send_message(ctx.message.channel, "```Reaction commands:\n!lmao\n!rekt\n!litaf\n!sotru\n!fucker\n!noscope```")
+        data = discord.Embed(description="\nlmao\nrekt\nlitaf\nsotru\nfucker\nnoscope\nidgaf\nreact - Custom reaction")
+        data.set_author(name="Reaction commands:")
+        await self.bot.say(embed=data)
+    @commands.command(pass_context = True, no_pm=True)
+    async def emojireact(self, ctx, emojis):
+        async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
+                emolist = list(emojis)
+                for item in emolist:
+                    await self.bot.add_reaction(x, item)
+
     @commands.command(pass_context = True, no_pm=True)
     async def react(self, ctx, *, reaction):
         dictionary = { "A" : "\U0001f1e6", "B": "\U0001f1e7", "C": "\U0001f1e8", "D": "\U0001f1e9", "E":  "\U0001f1ea", "F": "\U0001f1eb", "G": "\U0001f1ec", "H" : "\U0001f1ed", "I": "\U0001f1ee", "J": "\U0001f1ef", "K" : "\U0001f1f0", "L": "\U0001f1f1", "M" : "\U0001f1f2", "N" : "\U0001f1f3", "O" : "\U0001f1f4", "P" : "\U0001f1f5", "Q" : "\U0001f1f6",  "R" : "\U0001f1f7", "S" : "\U0001f1f8", "T" : "\U0001f1f9", "U" : "\U0001f1fa", "V" : "\U0001f1fb", "W" : "\U0001f1fc", "X" : "\U0001f1fd", "Y" : "\U0001f1fe", "Z" : "\U0001f1ff"}
         a = reaction
-        listr = [dictionary[char] for char in a]
+        try:
+            listr = [dictionary[char] for char in a]
+            dontrun = False
+        except KeyError:
+
+            dontrun = True
         lenstr = len(reaction)
         if lenstr > 8:
-                await self.bot.say("Length cant be more than 9 characters")
+                await self.bot.say("Length cannot be more than 9 characters")
+        elif dontrun == True:
+            await self.bot.say("Could not find, Letters only and caps.")
         elif lenstr == 8:
             async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
-                await self.bot.add_reaction(x, listr[0])
-                await self.bot.add_reaction(x, listr[1])
-                await self.bot.add_reaction(x, listr[2])
-                await self.bot.add_reaction(x, listr[3])
-                await self.bot.add_reaction(x, listr[4])
-                await self.bot.add_reaction(x, listr[5])
-                await self.bot.add_reaction(x, listr[6])
-                await self.bot.add_reaction(x, listr[7])
+                try:
+                    await self.bot.add_reaction(x, listr[0])
+                    await self.bot.add_reaction(x, listr[1])
+                    await self.bot.add_reaction(x, listr[2])
+                    await self.bot.add_reaction(x, listr[3])
+                    await self.bot.add_reaction(x, listr[4])
+                    await self.bot.add_reaction(x, listr[5])
+                    await self.bot.add_reaction(x, listr[6])
+                    await self.bot.add_reaction(x, listr[7])
+                except KeyError:
+                    await self.bot.say("Could not find, Letters only and caps.")
         elif lenstr == 7:
             async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
-                await self.bot.add_reaction(x, listr[0])
-                await self.bot.add_reaction(x, listr[1])
-                await self.bot.add_reaction(x, listr[2])
-                await self.bot.add_reaction(x, listr[3])
-                await self.bot.add_reaction(x, listr[4])
-                await self.bot.add_reaction(x, listr[5])
-                await self.bot.add_reaction(x, listr[6])
+                try:
+                    await self.bot.add_reaction(x, listr[0])
+                    await self.bot.add_reaction(x, listr[1])
+                    await self.bot.add_reaction(x, listr[2])
+                    await self.bot.add_reaction(x, listr[3])
+                    await self.bot.add_reaction(x, listr[4])
+                    await self.bot.add_reaction(x, listr[5])
+                    await self.bot.add_reaction(x, listr[6])
+                except KeyError:
+                    await self.bot.say("Could not find, Letters only and caps.")
 
         elif lenstr == 6:
             async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
-                await self.bot.add_reaction(x, listr[0])
-                await self.bot.add_reaction(x, listr[1])
-                await self.bot.add_reaction(x, listr[2])
-                await self.bot.add_reaction(x, listr[3])
-                await self.bot.add_reaction(x, listr[4])
-                await self.bot.add_reaction(x, listr[5])
+                try:
+                    await self.bot.add_reaction(x, listr[0])
+                    await self.bot.add_reaction(x, listr[1])
+                    await self.bot.add_reaction(x, listr[2])
+                    await self.bot.add_reaction(x, listr[3])
+                    await self.bot.add_reaction(x, listr[4])
+                    await self.bot.add_reaction(x, listr[5])
+                except KeyError:
+                    await self.bot.say("Could not find, Letters only and caps.")
         elif lenstr == 5:
             async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
-                await self.bot.add_reaction(x, listr[0])
-                await self.bot.add_reaction(x, listr[1])
-                await self.bot.add_reaction(x, listr[2])
-                await self.bot.add_reaction(x, listr[3])
-                await self.bot.add_reaction(x, listr[4])
+                try:
+                    await self.bot.add_reaction(x, listr[0])
+                    await self.bot.add_reaction(x, listr[1])
+                    await self.bot.add_reaction(x, listr[2])
+                    await self.bot.add_reaction(x, listr[3])
+                    await self.bot.add_reaction(x, listr[4])
+                except KeyError:
+                    await self.bot.say("Could not find, Letters only and caps.")
 
         elif lenstr == 4:
             async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
-                await self.bot.add_reaction(x, listr[0])
-                await self.bot.add_reaction(x, listr[1])
-                await self.bot.add_reaction(x, listr[2])
-                await self.bot.add_reaction(x, listr[3])
+                try:
+                    await self.bot.add_reaction(x, listr[0])
+                    await self.bot.add_reaction(x, listr[1])
+                    await self.bot.add_reaction(x, listr[2])
+                    await self.bot.add_reaction(x, listr[3])
+                except KeyError:
+                    await self.bot.say("Could not find, Letters only and caps.")
 
         elif lenstr == 3:
             async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
-                await self.bot.add_reaction(x, listr[0])
-                await self.bot.add_reaction(x, listr[1])
-                await self.bot.add_reaction(x, listr[2])
+                try:
+                    await self.bot.add_reaction(x, listr[0])
+                    await self.bot.add_reaction(x, listr[1])
+                    await self.bot.add_reaction(x, listr[2])
+                except KeyError:
+                    await self.bot.say("Could not find, Letters only and caps.")
 
         elif lenstr == 2:
             async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
-                await self.bot.add_reaction(x, listr[0])
-                await self.bot.add_reaction(x, listr[1])
+                try:
+                    await self.bot.add_reaction(x, listr[0])
+                    await self.bot.add_reaction(x, listr[1])
+                except KeyError:
+                    await self.bot.say("Could not find, Letters only and caps.")
         elif lenstr == 1:
             async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
-                await self.bot.add_reaction(x, listr[0])
+                try:
+                    await self.bot.add_reaction(x, listr[0])
+                except KeyError:
+                    await self.bot.say("Could not find, Letters only and caps.")
 
         else:
             await self.bot.say("Fatal error")
