@@ -3,7 +3,7 @@ from discord.ext import commands
 
 class serverinfo:
     @commands.command(pass_context=True, no_pm=True)
-    async def serverinfo(self, ctx):
+    async def oldserverinfo(self, ctx):
         """Shows server's informations"""
         server = ctx.message.server
         online = str(len([m.status for m in server.members if str(m.status) == "online" or str(m.status) == "idle"]))
