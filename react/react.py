@@ -32,7 +32,7 @@ class react:
             dontrun = True
         lenstr = len(reaction)
         if lenstr > 8:
-                await self.bot.say("Length cannot be more than 9 characters")
+                await self.bot.say("Length cannot be more than 8 characters")
         elif dontrun == True:
             await self.bot.say("Could not find, Letters only and caps.")
         elif lenstr == 8:
