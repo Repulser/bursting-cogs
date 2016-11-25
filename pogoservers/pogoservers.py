@@ -27,7 +27,6 @@ class pogo:
         color = int(color, 16)
         data = discord.Embed(description=level, colour=discord.Colour(value=color))
         data.add_field(name="Pokémon Go Server Status", value=level2)
-        data.set_footer(text="Pokémon Go Servers Status")
         data.set_author(name="PTC Login status")
         await self.bot.say(embed=data)
 
