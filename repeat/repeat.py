@@ -10,7 +10,7 @@ class repeat:
 
     @checks.is_owner()
     @commands.command(pass_context = True)
-    async def repeat(self, ctx):
+    async def monkeysee(self, ctx):
         channel = ctx.message.channel
         author = ctx.message.author
         await self.bot.send_message(channel, "Ok.")
