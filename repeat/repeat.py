@@ -13,7 +13,7 @@ class repeat:
     async def monkeysee(self, ctx):
         channel = ctx.message.channel
         author = ctx.message.author
-        await self.bot.send_message(channel, "Ok.")
+        await self.bot.send_message(channel, "Monkeydo")
         while True:
             torepeat = await self.bot.wait_for_message(author=author, channel=channel, timeout = None)
             await self.bot.send_message(channel, torepeat.content)
