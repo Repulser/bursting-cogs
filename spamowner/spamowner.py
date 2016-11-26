@@ -12,7 +12,7 @@ class spam:
     @commands.command(pass_context = True)
     async def spam(self, ctx, user : discord.Member, spamtext, number : int=None):
         """Spams x times, default is 10."""
-        if user.id == "96987941519237120" or "166179284266778624":
+        if user.id == "96987941519237120" or user.id == "166179284266778624":
             await self.bot.say("Hell nah, I ain't spamming him.")
             return
         if number == None:
@@ -29,7 +29,7 @@ class spam:
     @commands.command(hidden=True)
     async def aspam(self, user : discord.Member, spamtext, number : int=None):
         """Spams x times anonymously, default is 10."""
-        if user.id == "96987941519237120" or "166179284266778624":
+        if user.id == "96987941519237120" or user.id == "166179284266778624":
             await self.bot.say("Hell nah, I ain't spamming him.")
             return
         if number == None:
