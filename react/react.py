@@ -37,10 +37,73 @@ class react:
 
             dontrun = True
         lenstr = len(reaction)
-        if lenstr > 8:
-                await self.bot.say("Length cannot be more than 9 characters")
+        if lenstr > 12:
+                await self.bot.say("Length cannot be more than 12 characters")
         elif dontrun == True:
             await self.bot.say("Could not find, letters only")
+        elif lenstr == 12:
+            async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
+                try:
+                    await self.bot.add_reaction(x, listr[0])
+                    await self.bot.add_reaction(x, listr[1])
+                    await self.bot.add_reaction(x, listr[2])
+                    await self.bot.add_reaction(x, listr[3])
+                    await self.bot.add_reaction(x, listr[4])
+                    await self.bot.add_reaction(x, listr[5])
+                    await self.bot.add_reaction(x, listr[6])
+                    await self.bot.add_reaction(x, listr[7])
+                    await self.bot.add_reaction(x, listr[8])
+                    await self.bot.add_reaction(x, listr[9])
+                    await self.bot.add_reaction(x, listr[10])
+                    await self.bot.add_reaction(x, listr[11])
+                except KeyError:
+                    await self.bot.say("Could not find, Letters only and caps.")
+        elif lenstr == 11:
+            async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
+                try:
+                    await self.bot.add_reaction(x, listr[0])
+                    await self.bot.add_reaction(x, listr[1])
+                    await self.bot.add_reaction(x, listr[2])
+                    await self.bot.add_reaction(x, listr[3])
+                    await self.bot.add_reaction(x, listr[4])
+                    await self.bot.add_reaction(x, listr[5])
+                    await self.bot.add_reaction(x, listr[6])
+                    await self.bot.add_reaction(x, listr[7])
+                    await self.bot.add_reaction(x, listr[9])
+                    await self.bot.add_reaction(x, listr[10])
+                except KeyError:
+                    await self.bot.say("Could not find, Letters only and caps.")
+        elif lenstr == 10:
+            async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
+                try:
+                    await self.bot.add_reaction(x, listr[0])
+                    await self.bot.add_reaction(x, listr[1])
+                    await self.bot.add_reaction(x, listr[2])
+                    await self.bot.add_reaction(x, listr[3])
+                    await self.bot.add_reaction(x, listr[4])
+                    await self.bot.add_reaction(x, listr[5])
+                    await self.bot.add_reaction(x, listr[6])
+                    await self.bot.add_reaction(x, listr[7])
+                    await self.bot.add_reaction(x, listr[8])
+                    await self.bot.add_reaction(x, listr[9])
+                except KeyError:
+                    await self.bot.say("Could not find, Letters only and caps.")
+        elif lenstr == 9:
+            async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
+                try:
+                    await self.bot.add_reaction(x, listr[0])
+                    await self.bot.add_reaction(x, listr[1])
+                    await self.bot.add_reaction(x, listr[2])
+                    await self.bot.add_reaction(x, listr[3])
+                    await self.bot.add_reaction(x, listr[4])
+                    await self.bot.add_reaction(x, listr[5])
+                    await self.bot.add_reaction(x, listr[6])
+                    await self.bot.add_reaction(x, listr[7])
+                    await self.bot.add_reaction(x, listr[8])
+
+                except KeyError:
+                    await self.bot.say("Could not find, Letters only and caps.")
+
         elif lenstr == 8:
             async for x in self.bot.logs_from(ctx.message.channel, before=ctx.message.timestamp, limit=1):
                 try:
