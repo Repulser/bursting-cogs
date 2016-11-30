@@ -20,7 +20,7 @@ class disco:
             colour = int(colour, 16)
             await self.bot.edit_role(ctx.message.server, role, colour=discord.Colour(value=colour))
             time = time + 1
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.7)
 
     @checks.admin_or_permissions(administrator=True)
     @commands.command(pass_context = True, no_pm=True)
@@ -30,7 +30,7 @@ class disco:
             colour = ''.join([choice('0123456789ABCDEF') for x in range(6)])
             colour = int(colour, 16)
             await self.bot.edit_role(ctx.message.server, role, colour=discord.Colour(value=colour))
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.7)
 
 
 def setup(bot):
