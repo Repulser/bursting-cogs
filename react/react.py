@@ -11,7 +11,7 @@ class react:
 
     @commands.command(pass_context = True, no_pm=True)
     async def reactlist(self, ctx):
-        data = discord.Embed(description="\nlmao\nrekt\nlitaf\nsotru\nfucker\nnoscope\nidgaf\nreact - Custom reaction")
+        data = discord.Embed(description="\nlmao\nrekt\nlitaf\nsotru\nfucker\nnoscope\nidgaf\nreact\nidgaf - Custom reaction")
         data.set_author(name="Reaction commands:")
         await self.bot.say(embed=data)
     @commands.command(pass_context = True, no_pm=True)
