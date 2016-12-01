@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import datetime
+import time
 from random import choice, randint
 class pingtime:
     """Ping, with time"""
