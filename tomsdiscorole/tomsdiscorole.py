@@ -10,7 +10,7 @@ class disco:
 
     def __init__(self, bot):
         self.bot = bot
-    @checks.admin_or_permissions(moderator=True)
+    @checks.mod_or_permissions(moderator=True)
     @commands.command(pass_context = True, no_pm=True)
     async def discorole(self, ctx, times : int, role: discord.Role, interval : float):
         time = 0
@@ -21,7 +21,7 @@ class disco:
             time = time + 1
             await asyncio.sleep(interval)
 	
-    @checks.admin_or_permissions(moderator=True)
+    @checks.mod_or_permissions(moderator=True)
     @commands.command(pass_context = True, no_pm=True)
     async def discoroleforever(self, ctx, role: discord.Role, interval : float):
         
