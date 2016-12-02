@@ -12,7 +12,7 @@ class disco:
         self.bot = bot
     @checks.admin_or_permissions(administrator=True)
     @commands.command(pass_context = True, no_pm=True)
-    async def discorole(self, ctx, times : int,  *, role: discord.Role):
+    async def discorole(self, ctx, times : int, role: discord.Role, interval : float):
         
         time = 0
         while time < times:
@@ -20,17 +20,17 @@ class disco:
             colour = int(colour, 16)
             await self.bot.edit_role(ctx.message.server, role, colour=discord.Colour(value=colour))
             time = time + 1
-            await asyncio.sleep(5)
+            await asyncio.sleep(interval)
 	
     @checks.admin_or_permissions(administrator=True)
     @commands.command(pass_context = True, no_pm=True)
-    async def discoroleforever(self, ctx, *, role: discord.Role):
+    async def discoroleforever(self, ctx, role: discord.Role, interval : float):
         
         while True:
             colour = ''.join([choice('0123456789ABCDEF') for x in range(6)])
             colour = int(colour, 16)
             await self.bot.edit_role(ctx.message.server, role, colour=discord.Colour(value=colour))
-            await asyncio.sleep(5)
+            await asyncio.sleep(interval)
 
 
 def setup(bot):
