@@ -13,7 +13,6 @@ class disco:
     @checks.admin_or_permissions(administrator=True)
     @commands.command(pass_context = True, no_pm=True)
     async def discorole(self, ctx, times : int, role: discord.Role, interval : float):
-        
         time = 0
         while time < times:
             colour = ''.join([choice('0123456789ABCDEF') for x in range(6)])
