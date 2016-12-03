@@ -13,8 +13,8 @@ class disco:
     @checks.mod_or_permissions(moderator=True)
     @commands.command(pass_context = True, no_pm=True)
     async def discorole(self, ctx, times : int, role: discord.Role, interval : float):
-    if interval < 1:
-        interval = 1.5
+        if interval < 1:
+            interval = 1.5
         time = 0
         while time < times:
             colour = ''.join([choice('0123456789ABCDEF') for x in range(6)])
@@ -26,8 +26,8 @@ class disco:
     @checks.admin_or_permissions(administrator=True)
     @commands.command(pass_context = True, no_pm=True)
     async def discoroleforever(self, ctx, role: discord.Role, interval : float):
-    if interval < 1:
-        interval = 1.5
+        if interval < 1:
+            interval = 1.5
         while True:
             colour = ''.join([choice('0123456789ABCDEF') for x in range(6)])
             colour = int(colour, 16)
