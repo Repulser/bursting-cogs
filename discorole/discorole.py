@@ -17,8 +17,8 @@ class disco:
         if not roleObj:
             await self.bot.say("`{}` is not a valid role".format(role))
             return
-        if interval < 1:
-            interval = 1.5
+        if interval < 5:
+            interval = 5
         time = 0
         while time < times:
             colour = ''.join([choice('0123456789ABCDEF') for x in range(6)])
@@ -34,8 +34,8 @@ class disco:
         if not roleObj:
             await self.bot.say("`{}` is not a valid role".format(role))
             return
-        if interval < 1:
-            interval = 1.5
+        if interval < 5:
+            interval = 5
         while True:
             colour = ''.join([choice('0123456789ABCDEF') for x in range(6)])
             colour = int(colour, 16)
