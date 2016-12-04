@@ -23,6 +23,7 @@ class react:
 
     @commands.command(pass_context = True, no_pm=True)
     async def react(self, ctx, *, reaction):
+        await self.bot.delete_message(ctx.message)
         def all_lower():
             return all([char.islower() for char in reaction])
         lowercase = all_lower()
@@ -190,6 +191,7 @@ class react:
 
     @commands.command(pass_context = True, no_pm=True)
     async def litaf(self, ctx):
+        await self.bot.delete_message(ctx.message)
         L = "\U0001f1f1"
         I = "\U0001f1ee"
         T = "\U0001f1f9"
@@ -209,6 +211,7 @@ class react:
 
     @commands.command(pass_context = True, no_pm=True)
     async def sotru(self, ctx):
+        await self.bot.delete_message(ctx.message)
         S = "\U0001f1f8"
         U = "\U0001f1fa"
         O = "\U0001f1f4"
@@ -232,6 +235,7 @@ class react:
             await self.bot.add_reaction(x, ok)
     @commands.command(pass_context = True, no_pm=True)
     async def idgaf(self, ctx):
+        await self.bot.delete_message(ctx.message)
         S = "\U0001f1f8"
         U = "\U0001f1fa"
         D = "\U0001f1e9"
@@ -257,6 +261,7 @@ class react:
             await self.bot.add_reaction(x, cool)
     @commands.command(pass_context = True, no_pm=True)
     async def lmao(self, ctx):
+        await self.bot.delete_message(ctx.message)
         L = "\U0001f1f1"
         M = "\U0001f1f2"
         A = "\U0001f1e6"
@@ -274,6 +279,7 @@ class react:
 
     @commands.command(pass_context = True, no_pm=True)
     async def rekt(self, ctx):
+        await self.bot.delete_message(ctx.message)
         R = "\U0001f1f7"
         E = "\U0001f1ea"
         K = "\U0001f1f0"
@@ -291,6 +297,7 @@ class react:
 
     @commands.command(pass_context = True, no_pm=True)
     async def noscope(self, ctx):
+        await self.bot.delete_message(ctx.message)
         N = "\U0001f1f3"
         BOOM = "\U0001f4a5"
         S = "\U0001f1f8"
@@ -313,6 +320,7 @@ class react:
 
     @commands.command(pass_context = True, no_pm=True)
     async def fucker(self, ctx):
+        await self.bot.delete_message(ctx.message)
         MIDDLEFINGER = "\U0001f595"
         F = "\U0001f1eb"
         U = "\U0001f1fa"
