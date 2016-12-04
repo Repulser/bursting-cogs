@@ -9,6 +9,7 @@ class channelmute:
 
     def __init__(self, bot):
         self.bot = bot
+    @checks.admin_or_permissions(manage_channels=True)
     @commands.command(pass_context = True)
     async def mutechannel(self, ctx):
         perms = discord.PermissionOverwrite()
