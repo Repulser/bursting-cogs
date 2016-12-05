@@ -3,8 +3,6 @@ import asyncio
 import discord
 from cogs.utils import checks
 from discord.ext import commands
-from random import choice, randint
-from bs4 import BeautifulSoup
 class channelmute:
     """Channel mute"""
 
