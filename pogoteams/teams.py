@@ -81,8 +81,9 @@ class teams:
     @commands.group(name= 'teamleave', pass_context=True, no_pm=True)
     async def _teamleave(self, ctx):
         """Leave a pokemon go team"""
-        await self.bot.send_cmd_help(ctx)
-        return
+        if ctx.invoked_subcommand is None:
+            await self.bot.send_cmd_help(ctx)
+            return
 
     @_teamleave.command(name = 'valor', pass_context=True, no_pm=True)
     async def _valor(self, ctx):
@@ -134,6 +135,3 @@ class teams:
 def setup(bot):
     n = teams(bot)
     bot.add_cog(n)
-
-
-
