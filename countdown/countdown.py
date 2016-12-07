@@ -19,6 +19,7 @@ class countdown:
                     break
                 await self.bot.edit_message(message, new_content=("```css" + "\n" + "[" + title + "]" + "\nTimer: {0}```".format(secondint)))
                 await asyncio.sleep(1)
+            await self.bot.send_message(ctx.message.channel, ctx.message.author.mention + " Your countdown " + "[" + title + "]"  + " Has ended!")
         except ValueError:
             await self.bot.say("Must be a number!")
 
