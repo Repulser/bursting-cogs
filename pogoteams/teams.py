@@ -126,7 +126,7 @@ class teams:
         if 'Mystic' in serverroles and 'Valor' in serverroles and 'Instinct' in serverroles:
             if 'Instinct' in roles:
                 await self.bot.remove_roles(user, valor)
-                await self.bot.say("Succesfuly left team :+1:")
+                await self.bot.say("Succesfuly left team  :+1:")
             else:
                 await self.bot.say("You have not joined that team!")
         else:
