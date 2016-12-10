@@ -5,7 +5,7 @@ class talk:
     """Talk with the bot!"""
     def __init__(self, bot):
         self.bot = bot
-		
+
     @commands.command(pass_context = True)
     async def talk(self, ctx):
         cleverbot_client = cleverbot.Cleverbot()
@@ -18,6 +18,7 @@ class talk:
                     break
                 await self.bot.send_typing(ctx.message.channel)
                 answer = cleverbot_client.ask(question.content)
+                await asyncio.sleep(2)
                 await self.bot.say(answer)
             except AttributeError:
                 await self.bot.say("Ok then, well talk later")
