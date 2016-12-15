@@ -14,7 +14,7 @@ class countdown:
             message = await self.bot.say("```css" + "\n" + "[" + title +"]" + "\nTimer: " + seconds + "```")
             while True:
                 secondint = secondint - 1
-                if secondint == -10:
+                if secondint == 0:
                     await self.bot.edit_message(message, new_content=("```Ended!```"))
                     break
                 await self.bot.edit_message(message, new_content=("```css" + "\n" + "[" + title + "]" + "\nTimer: {0}```".format(secondint)))
