@@ -1,4 +1,3 @@
-import requests
 import asyncio
 import discord
 from cogs.utils import checks
