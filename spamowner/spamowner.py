@@ -27,7 +27,7 @@ class spam:
                 await self.bot.say("Hehe, {} got spammed {} times!".format(user.mention, counter))
     @checks.is_owner()
     @commands.command(hidden=True, pass_context=True)
-    async def aspam(self, user : discord.Member, spamtext, number : int=None):
+    async def aspam(self, ctx, user : discord.Member, spamtext, number : int=None):
         """Spams x times anonymously, default is 10."""
         if user.id == "96987941519237120" or user.id == "166179284266778624":
             await self.bot.say("Hell nah, I ain't spamming him.")
