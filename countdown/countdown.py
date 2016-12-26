@@ -7,10 +7,16 @@ class countdown:
         self.bot = bot
 
     @commands.command(pass_context = True)
-    async def countdown(self, ctx, seconds, title):
+    async def countdown(self, ctx, seconds, *, title):
         counter = 0
         try:
             secondint = int(seconds)
+            if secondint > 300:
+                await self.bot.say("I dont think im allowed to do go above 300 seconds \U0001f914")
+                raise BaseException
+            if secondint < 0 or secondint == 0:
+                await self.bot.say("I dont think im allowed to do negatives \U0001f914")
+                raise BaseException
             message = await self.bot.say("```css" + "\n" + "[" + title +"]" + "\nTimer: " + seconds + "```")
             while True:
                 secondint = secondint - 1
