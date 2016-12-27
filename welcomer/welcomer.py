@@ -119,10 +119,10 @@ class invitemirror:
     @welcome.command(name='embed', pass_context=True, no_pm=True)
     async def embed(self, ctx):
         server = ctx.message.server
+        db = fileIO(self.direct, "load")
         if not server.id in db:
             await self.bot.say("Server not found, use welcomer joinmessage to set a channel.")
             return
-        db = fileIO(self.direct, "load")
         if db[server.id]["Embed"] == False:
             db[server.id]["Embed"] = True
             fileIO(self.direct, "save", db)
