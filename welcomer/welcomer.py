@@ -15,7 +15,7 @@ class invitemirror:
         self.bot = bot
         self.direct = "data/welcomer/settings.json"
 
-    @checks.admin_or_permissions(administrator=True)
+    @checks.admin_or_permissions(manage_server=True)
     @commands.group(name='welcomer', pass_context=True, no_pm=True)
     async def welcome(self, ctx):
         """Welcome users!"""
