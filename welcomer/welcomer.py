@@ -69,10 +69,10 @@ class invitemirror:
         Example formats:
             {0.mention} this will mention the user when he joins
             {1.name} is the name of the server
-            {0.name} is the name 
+            {0.name} is the name
         Message Examples:
-        {0.mention} Welcome to {1.name}
-        Welcome to {1.name} {0}! I hope you enjoy your stay
+            {0.mention} Welcome to {1.name}
+            Welcome to {1.name} {0}! I hope you enjoy your stay
         """
         server = ctx.message.server
         db = fileIO(self.direct, "load")
@@ -87,6 +87,40 @@ class invitemirror:
                 db[server.id]["Channel"] = ctx.message.channel.id
                 fileIO(self.direct, "save", db)
                 await self.bot.say("I will now send leave notifications here (If toggled)")
+
+    @welcome.command(name='botrole', pass_context=True, no_pm=True)
+    async def botrole(self, ctx, *, role : discord.Role):
+        """sets the botrole to auto assign roles to bots"""
+        server = ctx.message.server
+        db = fileIO(self.direct, "load")
+        if not server.id in db:
+            await self.bot.say("Server not found, use welcomer joinmessage to set a channel.")
+            return
+        if ctx.message.server.me.permissions_in(ctx.message.channel).manage_roles:
+            db[server.id]['botrole'] = role.id
+            fileIO(self.direct, "save", db)
+            await self.bot.say("Bot role saved")
+        else:
+            await self.bot.say("I do not have the manage_roles permission")
+
+    @welcome.command(name='botroletoggle', pass_context=True, no_pm=True)
+    async def botroletoggle(self, ctx):
+        server = ctx.message.server
+        db = fileIO(self.direct, "load")
+        if not server.id in db:
+            await self.bot.say("Server not found, use welcomer joinmessage to set a channel.")
+            return
+        if db[server.id]['botrole'] == None:
+            await self.bot.say("Botrole not found set it with welcomer botrole")
+        if db[server.id]["botroletoggle"] == False:
+            db[server.id]["botroletoggle"] = True
+            fileIO(self.direct, "save", db)
+            await self.bot.say("Bot role enabled")
+        elif db[server.id]["botroletoggle"] == True:
+            db[server.id]["botroletoggle"] = False
+            fileIO(self.direct, "save", db)
+            await self.bot.say("Bot roledisabled")
+
 
     @welcome.command(name='toggleleave', pass_context=True, no_pm=True)
     async def toggleleave(self, ctx):
@@ -145,11 +179,15 @@ class invitemirror:
         await self.bot.say("I will no longer send welcomer notifications here")
 
     async def on_member_join(self, member):
-        await asyncio.sleep(1)
         server = member.server
         db = fileIO(self.direct, "load")
         if not server.id in db:
             return
+        if member.bot:
+            if db[server.id]['botroletoggle'] == True:
+                roleobj = [r for r in server.roles if r.id == db[server.id]['botrole']]
+                await self.bot.add_roles(member, roleobj[0])
+        await asyncio.sleep(1)
         if db[server.id]['join'] == False:
             return
         channel = db[server.id]["Channel"]
