@@ -23,7 +23,20 @@ class invitemirror:
 
     @welcome.command(name='joinmessage', pass_context=True, no_pm=True)
     async def joinmessage(self, ctx, *, message: str):
-        """set the welcomer in this channel"""
+        """
+        Set a message when a user joins
+        {0} is the user
+        {1} is the invite that he/her joined using
+        {2} is the server {2.name} <-
+        Example formats:
+            {0.mention} this will mention the user when he joins
+            {2.name} is the name of the server
+            {1.inviter} is the user that made the invite
+            {1.url} is the invite link the user joined with
+        Message Examples:
+        {0.mention} Welcome to {2.name}, User joined with {1.url} referred by {1.inviter}
+        Welcome to {2.name} {0}! I hope you enjoy your stay
+        """
         server = ctx.message.server
         db = fileIO(self.direct, "load")
         if server.id in db:
@@ -49,7 +62,18 @@ class invitemirror:
 
     @welcome.command(name='leavemessage', pass_context=True, no_pm=True)
     async def leavemessage(self, ctx, *, message: str):
-        """set the leave message in this channel"""
+         """
+        Set a message when a user leaves
+        {0} is the user
+        {1} is the server
+        Example formats:
+            {0.mention} this will mention the user when he joins
+            {1.name} is the name of the server
+            {0.name} is the name 
+        Message Examples:
+        {0.mention} Welcome to {1.name}
+        Welcome to {1.name} {0}! I hope you enjoy your stay
+        """
         server = ctx.message.server
         db = fileIO(self.direct, "load")
         if server.id in db:
