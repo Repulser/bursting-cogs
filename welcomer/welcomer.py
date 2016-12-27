@@ -62,7 +62,7 @@ class invitemirror:
 
     @welcome.command(name='leavemessage', pass_context=True, no_pm=True)
     async def leavemessage(self, ctx, *, message: str):
-         """
+        """
         Set a message when a user leaves
         {0} is the user
         {1} is the server
