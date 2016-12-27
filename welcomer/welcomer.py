@@ -6,8 +6,7 @@ import asyncio
 import os
 from random import choice, randint
 
-inv_settings = {"Channel": None, "joinmessage": None, "leavemessage": None, "Embed": False, "leave": False,
-                "join": False, "Invites": {}}
+inv_settings = {"Channel": None, "joinmessage": None, "leavemessage": None, "Embed": False, "leave": False, "botroletoggle": False, "botrole" : None, "join": False, "Invites": {}}
 
 
 class invitemirror:
@@ -44,7 +43,7 @@ class invitemirror:
                 for i in invlist:
                     db[server.id]["Invites"][i.url] = i.uses
                 fileIO(self.direct, "save", db)
-                await self.bot.say("I will now send welcome notifications here")
+                await self.bot.say("I will now send welcome notifications here (If toggled)")
         else:
             return
 
@@ -63,7 +62,7 @@ class invitemirror:
                 db[server.id]['leavemessage'] = message
                 db[server.id]["Channel"] = ctx.message.channel.id
                 fileIO(self.direct, "save", db)
-                await self.bot.say("I will now send leave notifications here")
+                await self.bot.say("I will now send leave notifications here (If toggled)")
 
     @welcome.command(name='toggleleave', pass_context=True, no_pm=True)
     async def toggleleave(self, ctx):
