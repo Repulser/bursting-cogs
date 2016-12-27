@@ -119,6 +119,7 @@ class invitemirror:
 
     @welcome.command(name='embed', pass_context=True, no_pm=True)
     async def embed(self, ctx):
+        """Toggle the message to be embeded or not"""
         server = ctx.message.server
         db = fileIO(self.direct, "load")
         if db[server.id]["Embed"] == False:
