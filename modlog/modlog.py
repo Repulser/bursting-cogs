@@ -165,10 +165,6 @@ class invitemirror:
         if db[server.id]['toggledelete'] == False:
             return
         channel = db[server.id]["Channel"]
-        messages = self.bot.logs_from(server.get_channel(channel), limit=100)
-        if message.author.id == server.me.id and message.channel.id == channel and message not in messages:
-            await self.bot.send_message(server.get_channel(channel), message.content)
-            return
         time = datetime.datetime.now()
         fmt = '[ %H:%M:%S ]'
         await self.bot.send_message(server.get_channel(channel),
