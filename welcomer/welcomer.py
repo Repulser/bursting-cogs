@@ -17,7 +17,7 @@ class invitemirror:
     @checks.admin_or_permissions(administrator=True)
     @commands.group(name='welcomer', pass_context=True, no_pm=True)
     async def welcome(self, ctx):
-        """Welcome users!"""
+        """Welcome and leave message, with invite link. Make sure to start first by settings the welcomer joinmessage, then continue to toggle, set leave ETC"""
         if ctx.invoked_subcommand is None:
             await self.bot.send_cmd_help(ctx)
 
