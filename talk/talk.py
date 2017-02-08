@@ -1,7 +1,7 @@
 import discord
 import asyncio
 from discord.ext import commands
-import cleverbot
+from cleverbot import Cleverbot
 class talk:
     """Talk with the bot!"""
     def __init__(self, bot):
@@ -9,7 +9,7 @@ class talk:
 
     @commands.command(pass_context = True)
     async def talk(self, ctx):
-        cleverbot_client = cleverbot.Cleverbot()
+        cleverbot_client = Cleverbot(str(self.bot.user.name))
         await self.bot.say(":fire: type exit to quit")
         while True:
             question = await self.bot.wait_for_message(author=ctx.message.author, channel=ctx.message.channel, timeout = 60)
