@@ -314,7 +314,6 @@ class invitemirror:
         banmessage = discord.Embed(description=name, colour=discord.Color.red())
         infomessage = "__{}__ has been banned from the server.".format(member.nick if member.nick else member.name)
         banmessage.add_field(name="Info:", value=infomessage, inline=False)
-        #delmessage.add_field(name="Message:", value=message.content)
         banmessage.set_footer(text="User ID: {}".format(member.id))
         banmessage.set_author(name=time.strftime(fmt) + " - Banned User", url="http://i.imgur.com/Imx0Znm.png")
         banmessage.set_thumbnail(url="http://i.imgur.com/Imx0Znm.png")
