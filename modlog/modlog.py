@@ -20,7 +20,7 @@ class invitemirror:
     @checks.admin_or_permissions(administrator=True)
     @commands.group(name='modlogtoggle', pass_context=True, no_pm=True)
     async def modlogtoggles(self, ctx):
-        """toggle which server activity to log"""
+        """Toggle which server activity to log"""
         if ctx.invoked_subcommand is None:
             db = fileIO(self.direct, "load")
             await self.bot.send_cmd_help(ctx)
@@ -44,7 +44,7 @@ class invitemirror:
 
     @modlogset.command(pass_context=True, name='channel', no_pm=True)
     async def channel(self, ctx):
-        """Set the channel to send notifications too"""
+        """Set the channel to send notifications to"""
         server = ctx.message.server
         db = fileIO(self.direct, "load")
         if ctx.message.server.me.permissions_in(ctx.message.channel).send_messages:
@@ -63,7 +63,7 @@ class invitemirror:
 
     @modlogset.command(name='disable', pass_context=True, no_pm=True)
     async def disable(self, ctx):
-        """disables the modlog"""
+        """Disables the modlog"""
         server = ctx.message.server
         db = fileIO(self.direct, "load")
         if not server.id in db:
@@ -75,7 +75,7 @@ class invitemirror:
 
     @modlogtoggles.command(name='edit', pass_context=True, no_pm=True)
     async def edit(self, ctx):
-        """toggle notifications when a member edits theyre message"""
+        """Toggle notifications when a member edits their message"""
         server = ctx.message.server
         db = fileIO(self.direct, "load")
         if db[server.id]["toggleedit"] == False:
@@ -89,7 +89,7 @@ class invitemirror:
 
     @modlogtoggles.command(name='delete', pass_context=True, no_pm=True)
     async def delete(self, ctx):
-        """toggle notifications when a member delete theyre message"""
+        """Toggle notifications when a member delete their message"""
         server = ctx.message.server
         db = fileIO(self.direct, "load")
         if db[server.id]["toggledelete"] == False:
@@ -103,7 +103,7 @@ class invitemirror:
 
     @modlogtoggles.command(name='user', pass_context=True, no_pm=True)
     async def user(self, ctx):
-        """toggle notifications when a user changes his profile"""
+        """Toggle notifications when a user changes their profile"""
         server = ctx.message.server
         db = fileIO(self.direct, "load")
         if db[server.id]["toggleuser"] == False:
@@ -117,7 +117,7 @@ class invitemirror:
 
     @modlogtoggles.command(name='roles', pass_context=True, no_pm=True)
     async def roles(self, ctx):
-        """toggle notifications when roles change"""
+        """Toggle notifications when roles change"""
         server = ctx.message.server
         db = fileIO(self.direct, "load")
         if db[server.id]["toggleroles"] == False:
@@ -131,7 +131,7 @@ class invitemirror:
 
     @modlogtoggles.command(name='voice', pass_context=True, no_pm=True)
     async def voice(self, ctx):
-        """toggle notifications when voice status change"""
+        """Toggle notifications when voice status change"""
         server = ctx.message.server
         db = fileIO(self.direct, "load")
         if db[server.id]["togglevoice"] == False:
@@ -145,7 +145,7 @@ class invitemirror:
 
     @modlogtoggles.command(name='ban', pass_context=True, no_pm=True)
     async def ban(self, ctx):
-        """toggle notifications when a user is banned"""
+        """Toggle notifications when a user is banned"""
         server = ctx.message.server
         db = fileIO(self.direct, "load")
         if db[server.id]["toggleban"] == False:
@@ -167,10 +167,24 @@ class invitemirror:
         channel = db[server.id]["Channel"]
         time = datetime.datetime.now()
         fmt = '[ %H:%M:%S ]'
-        await self.bot.send_message(server.get_channel(channel),
-                                    "``{}`` {} ({}) Deleted his message in {}:\a\n\a\n ``{}``".format(
-                                        time.strftime(fmt), message.author, message.author.id, message.channel,
-                                        message.content))
+        
+        name = message.author
+        name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
+        delmessage = discord.Embed(description=name, colour=discord.Color.purple())
+        infomessage = "A message by __{}__, was deleted in {}".format(message.author.nick if message.author.nick else message.author.name, message.channel.mention)
+        delmessage.add_field(name="Info:", value=infomessage, inline=False)
+        delmessage.add_field(name="Message:", value=message.content)
+        delmessage.set_footer(text="User ID: {}".format(message.author.id))
+        delmessage.set_author(name=time.strftime(fmt) + " - Deleted Message", url="http://i.imgur.com/zhfwr4Q.png")
+        delmessage.set_thumbnail(url="http://i.imgur.com/zhfwr4Q.png")
+
+        try:
+            await self.bot.send_message(server.get_channel(channel), embed=delmessage)
+        except discord.HTTPException:
+            await self.bot.send_message(server.get_channel(channel),
+                                        "``{}`` {} ({}) Deleted his message in {}:\a\n\a\n ``{}``".format(
+                                            time.strftime(fmt), message.author, message.author.id, message.channel,
+                                            message.content))
 
     async def on_message_edit(self, before, after):
         server = before.server
@@ -184,7 +198,22 @@ class invitemirror:
         channel = db[server.id]["Channel"]
         time = datetime.datetime.now()
         fmt = '[ %H:%M:%S ]'
-        await self.bot.send_message(server.get_channel(channel),
+        
+        name = before.author
+        name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
+        delmessage = discord.Embed(description=name, colour=discord.Color.green())
+        infomessage = "A message by __{}__, was edited in {}".format(before.author.nick if before.author.nick else before.author.name, before.channel.mention)
+        delmessage.add_field(name="Info:", value=infomessage, inline=False)
+        delmessage.add_field(name="Before Message:", value=before.content, inline=False)
+        delmessage.add_field(name="After Message:", value=after.content)
+        delmessage.set_footer(text="User ID: {}".format(before.author.id))
+        delmessage.set_author(name=time.strftime(fmt) + " - Edited Message", url="http://i.imgur.com/Q8SzUdG.png")
+        delmessage.set_thumbnail(url="http://i.imgur.com/Q8SzUdG.png")
+
+        try:
+            await self.bot.send_message(server.get_channel(channel), embed=delmessage)
+        except discord.HTTPException:        
+            await self.bot.send_message(server.get_channel(channel),
                                     "``{}`` {} ({}) Edited his message in {}:\a\n\a\n__**Before:**__ ``{}``\a\n\a\n__**After:**__ ``{}``".format(
                                         time.strftime(fmt), before.author, before.author.id, before.channel,
                                         before.content, after.content))
@@ -199,10 +228,25 @@ class invitemirror:
         channel = db[server.id]["Channel"]
         time = datetime.datetime.now()
         fmt = '[ %H:%M:%S ]'
-        await self.bot.send_message(server.get_channel(channel),
-                                    "``{}`` {} ({}) Voice status changed:\a\n\a\n__**Before:**__ ``{}``\a\n\a\n__**After:**__ ``{}``".format(
-                                        time.strftime(fmt), before, before.id,
-                                        before.voice_channel, after.voice_channel))
+        
+        name = before
+        name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
+        updmessage = discord.Embed(description=name, colour=discord.Color.blue())
+        infomessage = "__{}__'s voice status has changed".format(before.name)
+        updmessage.add_field(name="Info:", value=infomessage, inline=False)
+        updmessage.add_field(name="Voice Channel Before:", value=before.voice_channel)
+        updmessage.add_field(name="Voice Channel After:", value=after.voice_channel)
+        updmessage.set_footer(text="User ID: {}".format(before.id))
+        updmessage.set_author(name=time.strftime(fmt) + " - Voice Channel Changed", url="http://i.imgur.com/8gD34rt.png")
+        updmessage.set_thumbnail(url="http://i.imgur.com/8gD34rt.png")
+
+        try:
+            await self.bot.send_message(server.get_channel(channel), embed=updmessage)
+        except discord.HTTPException:
+            await self.bot.send_message(server.get_channel(channel),
+                                        "``{}`` {} ({}) Voice status changed:\a\n\a\n__**Before:**__ ``{}``\a\n\a\n__**After:**__ ``{}``".format(
+                                            time.strftime(fmt), before, before.id,
+                                            before.voice_channel, after.voice_channel))
 
     async def on_member_update(self, before, after):
         server = before.server
@@ -215,16 +259,44 @@ class invitemirror:
         time = datetime.datetime.now()
         fmt = '[ %H:%M:%S ]'
         if not before.nick == after.nick:
-            await self.bot.send_message(server.get_channel(channel),
-                                        "``{}`` {} ({}) User nickname changed:\a\n\a\n__**Before:**__ ``{}``\a\n\a\n__**After:**__ ``{}``".format(
-                                            time.strftime(fmt), before, before.id,
-                                            before.nick, after.nick))
+            name = before
+            name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
+            updmessage = discord.Embed(description=name, colour=discord.Color.orange())
+            infomessage = "__{}__'s nickname has changed".format(before.name)
+            updmessage.add_field(name="Info:", value=infomessage, inline=False)
+            updmessage.add_field(name="Nickname Before:", value=before.nick)
+            updmessage.add_field(name="Nickname After:", value=after.nick)
+            updmessage.set_footer(text="User ID: {}".format(before.id))
+            updmessage.set_author(name=time.strftime(fmt) + " - Nickname Changed", url="http://i.imgur.com/I5q71rj.png")
+            updmessage.set_thumbnail(url="http://i.imgur.com/I5q71rj.png")
+
+            try:
+                await self.bot.send_message(server.get_channel(channel), embed=updmessage)
+            except discord.HTTPException: 
+                await self.bot.send_message(server.get_channel(channel),
+                                            "``{}`` {} ({}) User nickname changed:\a\n\a\n__**Before:**__ ``{}``\a\n\a\n__**After:**__ ``{}``".format(
+                                                time.strftime(fmt), before, before.id,
+                                                before.nick, after.nick))
         if not before.roles == after.roles:
-            await self.bot.send_message(server.get_channel(channel),
-                                        "``{}`` {} ({}) User roles changed:\a\n\a\n__**Before:**__ ``{}``\a\n\a\n__**After:**__ ``{}``".format(
-                                            time.strftime(fmt), before, before.id,
-                                            ",".join([r.name for r in before.roles if r.name != "@everyone"]),
-                                            ",".join([r.name for r in after.roles if r.name != "@everyone"])))
+            name = before
+            name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
+            updmessage = discord.Embed(description=name, colour=discord.Color.gold())
+            infomessage = "__{}__'s roles have changed".format(before.name)
+            updmessage.add_field(name="Info:", value=infomessage, inline=False)
+            updmessage.add_field(name="Roles Before:", value=", ".join([r.name for r in before.roles if r.name != "@everyone"]), inline=False)
+            updmessage.add_field(name="Roles After:", value=", ".join([r.name for r in after.roles if r.name != "@everyone"]))
+            updmessage.set_footer(text="User ID: {}".format(before.id))
+            updmessage.set_author(name=time.strftime(fmt) + " - Role Changed", url="http://i.imgur.com/QD39cFE.png")
+            updmessage.set_thumbnail(url="http://i.imgur.com/QD39cFE.png")
+
+            try:
+                await self.bot.send_message(server.get_channel(channel), embed=updmessage)
+            except discord.HTTPException:
+                await self.bot.send_message(server.get_channel(channel),
+                                            "``{}`` {} ({}) User roles changed:\a\n\a\n__**Before:**__ ``{}``\a\n\a\n__**After:**__ ``{}``".format(
+                                                time.strftime(fmt), before, before.id,
+                                                ",".join([r.name for r in before.roles if r.name != "@everyone"]),
+                                                ",".join([r.name for r in after.roles if r.name != "@everyone"])))
 
     async def on_member_ban(self, member):
         server = before.server
@@ -236,9 +308,23 @@ class invitemirror:
         channel = db[server.id]["Channel"]
         time = datetime.datetime.now()
         fmt = '[ %H:%M:%S ]'
-        await self.bot.send_message(server.get_channel(channel),
-                                    "``{}`` {} ({}) User banned".format(
-                                        time.strftime(fmt), member, member.id))
+        
+        name = member
+        name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
+        banmessage = discord.Embed(description=name, colour=discord.Color.red())
+        infomessage = "__{}__ has been banned from the server.".format(member.nick if member.nick else member.name)
+        banmessage.add_field(name="Info:", value=infomessage, inline=False)
+        #delmessage.add_field(name="Message:", value=message.content)
+        banmessage.set_footer(text="User ID: {}".format(member.id))
+        banmessage.set_author(name=time.strftime(fmt) + " - Banned User", url="http://i.imgur.com/NVejcVR.png")
+        banmessage.set_thumbnail(url="http://i.imgur.com/NVejcVR.png")
+
+        try:
+            await self.bot.send_message(server.get_channel(channel), embed=banmessage)
+        except discord.HTTPException:
+            await self.bot.send_message(server.get_channel(channel),
+                                        "``{}`` {} ({}) has been __**banned**__".format(
+                                            time.strftime(fmt), member, member.id))
 
 
 def check_folder():
