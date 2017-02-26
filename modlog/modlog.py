@@ -299,7 +299,7 @@ class invitemirror:
                                                 ",".join([r.name for r in after.roles if r.name != "@everyone"])))
 
     async def on_member_ban(self, member):
-        server = before.server
+        server = member.server
         db = fileIO(self.direct, "load")
         if not server.id in db:
             return
@@ -316,8 +316,8 @@ class invitemirror:
         banmessage.add_field(name="Info:", value=infomessage, inline=False)
         #delmessage.add_field(name="Message:", value=message.content)
         banmessage.set_footer(text="User ID: {}".format(member.id))
-        banmessage.set_author(name=time.strftime(fmt) + " - Banned User", url="http://i.imgur.com/NVejcVR.png")
-        banmessage.set_thumbnail(url="http://i.imgur.com/NVejcVR.png")
+        banmessage.set_author(name=time.strftime(fmt) + " - Banned User", url="http://i.imgur.com/Imx0Znm.png")
+        banmessage.set_thumbnail(url="http://i.imgur.com/Imx0Znm.png")
 
         try:
             await self.bot.send_message(server.get_channel(channel), embed=banmessage)
