@@ -175,8 +175,8 @@ class invitemirror:
         delmessage.add_field(name="Info:", value=infomessage, inline=False)
         delmessage.add_field(name="Message:", value=message.content)
         delmessage.set_footer(text="User ID: {}".format(message.author.id))
-        delmessage.set_author(name=time.strftime(fmt) + " - Deleted Message", url="http://i.imgur.com/zhfwr4Q.png")
-        delmessage.set_thumbnail(url="http://i.imgur.com/zhfwr4Q.png")
+        delmessage.set_author(name=time.strftime(fmt) + " - Deleted Message", url="http://i.imgur.com/fJpAFgN.png")
+        delmessage.set_thumbnail(url="http://i.imgur.com/fJpAFgN.png")
 
         try:
             await self.bot.send_message(server.get_channel(channel), embed=delmessage)
