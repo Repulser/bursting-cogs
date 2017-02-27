@@ -1,10 +1,3 @@
-from bs4 import BeautifulSoup
-import requests
-
-r = requests.get("http://cmmcd.com/PokemonGo/", headers={'User-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3'})
-soup = BeautifulSoup(r.content, 'html.parser')
-for i in soup.find_all("font"):
-
 import aiohttp
 import discord
 from discord.ext import commands
