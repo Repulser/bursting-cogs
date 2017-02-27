@@ -8,7 +8,7 @@ class pogo:
 
     def __init__(self, bot):
         self.bot = bot
-        self.session = aiohttp.ClienSession(loop=self.bot.loop)
+        self.session = aiohttp.ClientSession(loop=self.bot.loop)
 
     @commands.command(pass_context = True)
     async def pogoservers(self, ctx):
