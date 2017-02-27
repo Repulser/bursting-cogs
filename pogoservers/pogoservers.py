@@ -14,7 +14,6 @@ class pogo:
     async def pogoservers(self, ctx):
         url = "http://cmmcd.com/PokemonTrainerClub/"
         resp = await self.session.get(url, headers={'User-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3'})
-        await self.bot.say(await resp.text())
         soup = BeautifulSoup(await resp.text(), "html.parser")
         links = soup.find_all('font')
         for item in links:
