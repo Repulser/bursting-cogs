@@ -12,7 +12,7 @@ inv_settings = {"embed": False, "Channel": None, "toggleedit": False, "toggledel
                 "toggleban": False, "togglejoin": False, "toggleleave": False, "togglechannel": False, "toggleserver": False}
 
 
-class invitemirror:
+class ModLog:
     def __init__(self, bot):
         self.bot = bot
         self.direct = "data/modlogset/settings.json"
@@ -607,4 +607,4 @@ def check_file():
 def setup(bot):
     check_folder()
     check_file()
-    bot.add_cog(invitemirror(bot))
+    bot.add_cog(ModLog(bot))
