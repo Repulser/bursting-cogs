@@ -206,8 +206,10 @@ class invitemirror:
                                              colour=discord.Colour(value=color))
                         data.set_thumbnail(url=member.avatar_url)
                         await self.bot.send_message(server.get_channel(channel), embed=data)
+                        break
                     else:
                         await self.bot.send_message(server.get_channel(channel), message.format(member, a, server))
+                        break
             except KeyError:
                 if db[server.id]["Embed"] == True:
                     color = ''.join([choice('0123456789ABCDEF') for x in range(6)])
@@ -217,9 +219,10 @@ class invitemirror:
                                          colour=discord.Colour(value=color))
                     data.set_thumbnail(url=member.avatar_url)
                     await self.bot.send_message(server.get_channel(channel), embed=data)
+                    break
                 else:
                     await self.bot.send_message(server.get_channel(channel), message.format(member, a, server))
-                break
+                    break
             else:
                 pass
         invlist = await self.bot.invites_from(server)
