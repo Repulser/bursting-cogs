@@ -132,7 +132,7 @@ class Welcomer:
         if not server.id in db:
             await self.bot.say("Please set the channel you want me to send welcoming and leaving messages to with `{}welcomer channel #channel_name` then you may proceed to setting this message.".format(ctx.prefix))
             return
-        if ctx.message.server.me.permissions_in(server).manage_roles:
+        if ctx.message.server.me.permissions_in(ctx.message.channel).manage_roles:
             db[server.id]['Botrole'] = role.id
             fileIO(self.load, "save", db)
             await self.bot.say("The bot role has been set.")
