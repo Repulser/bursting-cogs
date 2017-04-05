@@ -61,7 +61,7 @@ class Welcomer:
         e.add_field(name="join Toggle:", value=db[server.id]["join"])
         e.add_field(name="leave Toggle:", value=db[server.id]["leave"])
         e.add_field(name="Bot Role:", value=db[server.id]["botroletoggle"])
-        e.add_field(name="Bot Role Toggle:", value=db[server.id]["botroletogglet"])
+        e.add_field(name="Bot Role Toggle:", value=db[server.id]["botroletoggle"])
         e.add_field(name="join Message:", value=db[server.id]["joinmessage"], inline=False)
         e.add_field(name="leave Message:", value=db[server.id]["leavemessage"], inline=False)
         try:
