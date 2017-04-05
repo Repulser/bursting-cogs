@@ -6,7 +6,7 @@ from discord.ext import commands
 from random import choice, randint
 from cogs.utils.dataIO import fileIO
 
-settings = {"Channel": None, "Embed" : False, "joinmessage": None, "leavemessage": None, "leave": False, "botroletoggle": False, "botroleid" : None, "join": False, "Invites": {}}
+settings = {"Channel": None, "Embed" : False, "joinmessage": None, "leavemessage": None, "leave": False, "botroletoggle": False, "botrole" : None, "join": False, "Invites": {}}
 
 class Welcomer:
     def __init__(self, bot):
@@ -52,7 +52,7 @@ Message Examples:
         color = ''.join([choice('0123456789ABCDEF') for x in range(6)])
         color = int(color, 16)
         e = discord.Embed(colour=discord.Colour(value=color), description="\n\a")
-        role = discord.utils.get(ctx.message.server.roles, id=db[server.id]["botroleid"])
+        role = discord.utils.get(ctx.message.server.roles, id=db[server.id]["botrole"])
         e.set_author(name="Settings for " + server.name, icon_url=server.icon_url)
         e.add_field(name="Welcomer Channel:", value="#" + self.bot.get_channel(db[server.id]["Channel"]).name if self.bot.get_channel(db[server.id]["Channel"]) else None, inline=True)
         e.add_field(name="Join Toggle:", value=db[server.id]["join"], inline=True)
@@ -136,7 +136,7 @@ Message Examples:
             await self.bot.say(":x: **Please set the channel you want me to send welcoming and leaving messages to with\n`welcomer channel #channel_name`\nthen you may proceed to setting this message.**")
             return
         if ctx.message.server.me.permissions_in(ctx.message.channel).manage_roles:
-            db[server.id]['botroleid'] = role.id
+            db[server.id]['botrole'] = role.id
             fileIO(self.load, "save", db)
             await self.bot.say("The bot role has been set.")
         else:
@@ -227,8 +227,8 @@ Message Examples:
         if not server.id in db:
             return
         if member.bot:
-            if db[server.id]['botroleid'] is True:
-                roleobj = discord.utils.get(server.roles, id=db[server.id]['botroleid'])
+            if db[server.id]['botroletoggle'] is True:
+                roleobj = discord.utils.get(server.roles, id=db[server.id]['botrole'])
                 if roleobj is not None:
                     await self.bot.add_roles(member, roleobj[0])
         await asyncio.sleep(1)
