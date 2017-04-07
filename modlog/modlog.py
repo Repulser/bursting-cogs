@@ -477,7 +477,7 @@ class ModLog:
         cleanbefore = before.content
         for i in before.mentions:
             cleanbefore = cleanbefore.replace(i.mention, str(i))
-        cleanbeafter = after.content
+        cleanafter = after.content
         for i in after.mentions:
             cleanafter = cleanafter.replace(i.mention, str(i))
         channel = db[server.id]["Channel"]
