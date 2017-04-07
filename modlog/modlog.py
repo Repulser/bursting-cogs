@@ -7,9 +7,11 @@ import asyncio
 import os
 from random import choice, randint
 
-inv_settings = {"embed": False, "Channel": None, "toggleedit": False, "toggledelete": False, "toggleuser": False, "toggleroles": False,
+inv_settings = {"embed": False, "Channel": None, "toggleedit": False, "toggledelete": False, "toggleuser": False,
+                "toggleroles": False,
                 "togglevoice": False,
-                "toggleban": False, "togglejoin": False, "toggleleave": False, "togglechannel": False, "toggleserver": False}
+                "toggleban": False, "togglejoin": False, "toggleleave": False, "togglechannel": False,
+                "toggleserver": False}
 
 
 class ModLog:
@@ -67,6 +69,7 @@ class ModLog:
                 await self.bot.say("I will now send toggled modlog notifications here")
         else:
             return
+
     @modlogset.command(pass_context=True, no_pm=True)
     async def embed(self, ctx):
         """Enables or disables embed modlog."""
@@ -106,7 +109,7 @@ class ModLog:
             db[server.id]["toggleedit"] = False
             fileIO(self.direct, "save", db)
             await self.bot.say("Edit messages disabled")
-            
+
     @modlogtoggles.command(pass_context=True, no_pm=True)
     async def join(self, ctx):
         """toggles notofications when a member joins the server."""
@@ -148,7 +151,7 @@ class ModLog:
             db[server.id]['togglechannel'] = False
             fileIO(self.direct, 'save', db)
             await self.bot.say("Disabled channel logs.")
-            
+
     @modlogtoggles.command(pass_context=True, no_pm=True)
     async def leave(self, ctx):
         """toggles notofications when a member leaves the server."""
@@ -244,14 +247,18 @@ class ModLog:
             pass
         channel = db[server.id]["Channel"]
         time = datetime.datetime.now()
+        cleanmsg = message.content
+        for i in message.mentions:
+            cleanmsg = cleanmsg.replace(i.mention, str(i))
         fmt = '%H:%M:%S'
         if db[server.id]["embed"] == True:
             name = message.author
             name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
             delmessage = discord.Embed(description=name, colour=discord.Color.purple())
-            infomessage = "A message by __{}__, was deleted in {}".format(message.author.nick if message.author.nick else message.author.name, message.channel.mention)
+            infomessage = "A message by __{}__, was deleted in {}".format(
+                message.author.nick if message.author.nick else message.author.name, message.channel.mention)
             delmessage.add_field(name="Info:", value=infomessage, inline=False)
-            delmessage.add_field(name="Message:", value=message.content)
+            delmessage.add_field(name="Message:", value=cleanmsg)
             delmessage.set_footer(text="User ID: {}".format(message.author.id))
             delmessage.set_author(name=time.strftime(fmt) + " - Deleted Message", url="http://i.imgur.com/fJpAFgN.png")
             delmessage.set_thumbnail(url="http://i.imgur.com/fJpAFgN.png")
@@ -260,10 +267,11 @@ class ModLog:
             except:
                 pass
         else:
-            msg = ":pencil: `{}` **Channel** {} **{}'s** message has been deleted. Content: {}".format(time.strftime(fmt), message.channel.mention, message.author, message.content)
+            msg = ":pencil: `{}` **Channel** {} **{}'s** message has been deleted. Content: {}".format(
+                time.strftime(fmt), message.channel.mention, message.author, cleanmsg)
             await self.bot.send_message(server.get_channel(channel),
-                                    msg)
-        
+                                        msg)
+
     async def on_member_join(self, member):
         server = member.server
         db = fileIO(self.direct, 'load')
@@ -282,16 +290,19 @@ class ModLog:
             infomessage = "__{}__ has joined the server.".format(member.nick if member.nick else member.name)
             joinmsg.add_field(name="Info:", value=infomessage, inline=False)
             joinmsg.set_footer(text="User ID: {}".format(member.id))
-            joinmsg.set_author(name=time.strftime(fmt) + " - Joined User", url="http://www.emoji.co.uk/files/twitter-emojis/objects-twitter/11031-inbox-tray.png")
-            joinmsg.set_thumbnail(url="http://www.emoji.co.uk/files/twitter-emojis/objects-twitter/11031-inbox-tray.png")
+            joinmsg.set_author(name=time.strftime(fmt) + " - Joined User",
+                               url="http://www.emoji.co.uk/files/twitter-emojis/objects-twitter/11031-inbox-tray.png")
+            joinmsg.set_thumbnail(
+                url="http://www.emoji.co.uk/files/twitter-emojis/objects-twitter/11031-inbox-tray.png")
             try:
                 await self.bot.send_message(server.get_channel(channel), embed=joinmsg)
             except:
                 pass
         if db[server.id]["embed"] == False:
-            msg = ":white_check_mark: `{}` **{}** join the server. Total users: {}.".format(time.strftime(fmt), member.name, users)
+            msg = ":white_check_mark: `{}` **{}** join the server. Total users: {}.".format(time.strftime(fmt),
+                                                                                            member.name, users)
             await self.bot.send_message(server.get_channel(channel), msg)
-        
+
     async def on_member_remove(self, member):
         server = member.server
         db = fileIO(self.direct, 'load')
@@ -310,14 +321,16 @@ class ModLog:
             infomessage = "__{}__ has left the server.".format(member.nick if member.nick else member.name)
             leave.add_field(name="Info:", value=infomessage, inline=False)
             leave.set_footer(text="User ID: {}".format(member.id))
-            leave.set_author(name=time.strftime(fmt) + " - Leaving User", url="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11928-outbox-tray.png")
+            leave.set_author(name=time.strftime(fmt) + " - Leaving User",
+                             url="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11928-outbox-tray.png")
             leave.set_thumbnail(url="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11928-outbox-tray.png")
             try:
                 await self.bot.send_message(server.get_channel(channel), embed=leave)
             except:
                 pass
         if db[server.id]["embed"] == False:
-            msg = ":x: `{}` **{}** has left the server or was kicked. Total members {}.".format(time.strftime(fmt), member.name, users)
+            msg = ":x: `{}` **{}** has left the server or was kicked. Total members {}.".format(time.strftime(fmt),
+                                                                                                member.name, users)
             await self.bot.send_message(server.get_channel(channel), msg)
 
     async def on_channel_update(self, before, after):
@@ -336,52 +349,70 @@ class ModLog:
                 if db[server.id]["embed"] == True:
                     fmt = "%H:%M:%S"
                     voice1 = discord.Embed(colour=discord.Color.blue())
-                    infomessage = ":loud_sound: Voice channel name update. Before: **{}** After: **{}**.".format(before.name, after.name)
+                    infomessage = ":loud_sound: Voice channel name update. Before: **{}** After: **{}**.".format(
+                        before.name, after.name)
                     voice1.add_field(name="Info:", value=infomessage, inline=False)
-                    voice1.set_author(name=time.strftime(fmt) + " - Voice Channel Update", icon_url="http://www.hey.fr/fun/emoji/twitter/en/icon/twitter/565-emoji_twitter_speaker_with_three_sound_waves.png")
-                    voice1.set_thumbnail(url="http://www.hey.fr/fun/emoji/twitter/en/icon/twitter/565-emoji_twitter_speaker_with_three_sound_waves.png")
+                    voice1.set_author(name=time.strftime(fmt) + " - Voice Channel Update",
+                                      icon_url="http://www.hey.fr/fun/emoji/twitter/en/icon/twitter/565-emoji_twitter_speaker_with_three_sound_waves.png")
+                    voice1.set_thumbnail(
+                        url="http://www.hey.fr/fun/emoji/twitter/en/icon/twitter/565-emoji_twitter_speaker_with_three_sound_waves.png")
                     try:
                         await self.bot.send_message(server.get_channel(channel), embed=voice1)
                     except:
                         pass
                 else:
                     fmt = "%H:%M:%S"
-                    await self.bot.send_message(server.get_channel(channel), ":loud_sound: `{}` Voice channel name update. Before: **{}** After: **{}**.".format(time.strftime(fmt), before.name, after.name))
+                    await self.bot.send_message(server.get_channel(channel),
+                                                ":loud_sound: `{}` Voice channel name update. Before: **{}** After: **{}**.".format(
+                                                    time.strftime(fmt), before.name, after.name))
             if before.type == discord.ChannelType.text:
                 if db[server.id]["embed"] == True:
                     fmt = "%H:%M:%S"
                     text1 = discord.Embed(colour=discord.Color.blue())
-                    infomessage = ":loud_sound: Text channel name update. Before: **{}** After: **{}**.".format(before.name, after.name)
+                    infomessage = ":loud_sound: Text channel name update. Before: **{}** After: **{}**.".format(
+                        before.name, after.name)
                     text1.add_field(name="Info:", value=infomessage, inline=False)
-                    text1.set_author(name=time.strftime(fmt) + " - Voice Channel Update", icon_url="https://s-media-cache-ak0.pinimg.com/originals/27/18/77/27187782801d15f756a27156105d1233.png")
-                    text1.set_thumbnail(url="https://s-media-cache-ak0.pinimg.com/originals/27/18/77/27187782801d15f756a27156105d1233.png")
+                    text1.set_author(name=time.strftime(fmt) + " - Voice Channel Update",
+                                     icon_url="https://s-media-cache-ak0.pinimg.com/originals/27/18/77/27187782801d15f756a27156105d1233.png")
+                    text1.set_thumbnail(
+                        url="https://s-media-cache-ak0.pinimg.com/originals/27/18/77/27187782801d15f756a27156105d1233.png")
                     await self.bot.send_message(server.get_channel(channel), embed=text1)
                 else:
                     fmt = "%H:%M:%S"
-                    await self.bot.send_message(server.get_channel(channel), ":page_facing_up: `{}` Text channel name update. Before: **{}** After: **{}**.".format(time.strftime(fmt), before.name, after.name))
+                    await self.bot.send_message(server.get_channel(channel),
+                                                ":page_facing_up: `{}` Text channel name update. Before: **{}** After: **{}**.".format(
+                                                    time.strftime(fmt), before.name, after.name))
         if before.topic != after.topic:
             if db[server.id]["embed"] == True:
                 fmt = "%H:%M:%S"
                 topic = discord.Embed(colour=discord.Colour.blue())
-                infomessage = ":page_facing_up: `{}` Channel topic has been updated.\n**Before:** {}\n**After:** {}".format(time.strftime(fmt), before.topic, after.topic)
+                infomessage = ":page_facing_up: `{}` Channel topic has been updated.\n**Before:** {}\n**After:** {}".format(
+                    time.strftime(fmt), before.topic, after.topic)
                 topic.add_field(name="Info:", value=infomessage, inline=False)
-                topic.set_author(name=time.strftime(fmt) + " - Channel Topic Update", icon_url="https://s-media-cache-ak0.pinimg.com/originals/27/18/77/27187782801d15f756a27156105d1233.png")
-                topic.set_thumbnail(url="https://s-media-cache-ak0.pinimg.com/originals/27/18/77/27187782801d15f756a27156105d1233.png")
+                topic.set_author(name=time.strftime(fmt) + " - Channel Topic Update",
+                                 icon_url="https://s-media-cache-ak0.pinimg.com/originals/27/18/77/27187782801d15f756a27156105d1233.png")
+                topic.set_thumbnail(
+                    url="https://s-media-cache-ak0.pinimg.com/originals/27/18/77/27187782801d15f756a27156105d1233.png")
                 try:
                     await self.send_message(server.get_channel(channel), embed=topic)
                 except:
                     pass
             else:
                 fmt = "%H:%M:%S"
-                await self.bot.send_message(server.get_channel(channel), ":page_facing_up: `{}` Channel topic has been updated.\n**Before:** {}\n**After:** {}".format(time.strftime(fmt), before.topic, after.topic))
+                await self.bot.send_message(server.get_channel(channel),
+                                            ":page_facing_up: `{}` Channel topic has been updated.\n**Before:** {}\n**After:** {}".format(
+                                                time.strftime(fmt), before.topic, after.topic))
         if before.position != after.position:
             if before.type == discord.ChannelType.voice:
                 if db[server.id]["embed"] == True:
                     fmt = "%H:%M:%S"
                     voice2 = discord.Embed(colour=discord.Colour.blue())
-                    voice2.set_thumbnail(url="http://www.hey.fr/fun/emoji/twitter/en/icon/twitter/565-emoji_twitter_speaker_with_three_sound_waves.png")
-                    voice2.set_author(name=time.strftime(fmt) + " Voice Channel Position Update", icon_url="http://www.hey.fr/fun/emoji/twitter/en/icon/twitter/565-emoji_twitter_speaker_with_three_sound_waves.png")
-                    infomsg = ":loud_sound: Voice channel position update. Channel: **{}** Before: **{}** After: **{}**.".format(before.name, before.position, after.position)
+                    voice2.set_thumbnail(
+                        url="http://www.hey.fr/fun/emoji/twitter/en/icon/twitter/565-emoji_twitter_speaker_with_three_sound_waves.png")
+                    voice2.set_author(name=time.strftime(fmt) + " Voice Channel Position Update",
+                                      icon_url="http://www.hey.fr/fun/emoji/twitter/en/icon/twitter/565-emoji_twitter_speaker_with_three_sound_waves.png")
+                    infomsg = ":loud_sound: Voice channel position update. Channel: **{}** Before: **{}** After: **{}**.".format(
+                        before.name, before.position, after.position)
                     voice2.add_field(name="Info:", value=infomsg, inline=False)
                     try:
                         await self.bot.send_message(server.get_channel(channel), embed=voice2)
@@ -389,14 +420,19 @@ class ModLog:
                         pass
                 else:
                     fmt = "%H:%M:%S"
-                    await self.bot.send_message(server.get_channel(channel), ":loud_sound: `{}` Voice channel position update. Channel: **{}** Before: **{}** After: **{}**.".format(time.strftime(fmt), before.name, before.position, after.position))
+                    await self.bot.send_message(server.get_channel(channel),
+                                                ":loud_sound: `{}` Voice channel position update. Channel: **{}** Before: **{}** After: **{}**.".format(
+                                                    time.strftime(fmt), before.name, before.position, after.position))
             if before.type == discord.ChannelType.text:
                 if db[server.id]["embed"] == True:
                     fmt = "%H:%M:%S"
                     text2 = discord.Embed(colour=discord.Colour.blue())
-                    text2.set_thumbnail(url="https://s-media-cache-ak0.pinimg.com/originals/27/18/77/27187782801d15f756a27156105d1233.png")
-                    text2.set_author(name=time.strftime(fmt) + " Text Channel Position Update", icon_url="https://s-media-cache-ak0.pinimg.com/originals/27/18/77/27187782801d15f756a27156105d1233.png")
-                    infomsg = ":page_facing_up: Text channel position update. Before: **{}** After: **{}**.".format(before.position, after.position)
+                    text2.set_thumbnail(
+                        url="https://s-media-cache-ak0.pinimg.com/originals/27/18/77/27187782801d15f756a27156105d1233.png")
+                    text2.set_author(name=time.strftime(fmt) + " Text Channel Position Update",
+                                     icon_url="https://s-media-cache-ak0.pinimg.com/originals/27/18/77/27187782801d15f756a27156105d1233.png")
+                    infomsg = ":page_facing_up: Text channel position update. Before: **{}** After: **{}**.".format(
+                        before.position, after.position)
                     text2.add_field(name="Info:", value=infomsg, inline=False)
                     try:
                         await self.bot.send_message(server.get_channel(channel), embed=text2)
@@ -404,21 +440,28 @@ class ModLog:
                         pass
                 else:
                     fmt = "%H:%M:%S"
-                    await self.bot.send_message(server.get_channel(channel), ":page_facing_up: `{}` Text channel position update. Channel: **{}** Before: **{}** After: **{}**.".format(time.strftime(fmt), before.name, before.position, after.position))
+                    await self.bot.send_message(server.get_channel(channel),
+                                                ":page_facing_up: `{}` Text channel position update. Channel: **{}** Before: **{}** After: **{}**.".format(
+                                                    time.strftime(fmt), before.name, before.position, after.position))
         if before.bitrate != after.bitrate:
             if db[server.id]["embed"] == True:
                 fmt = "%H:%M:%S"
                 bitrate = discord.Embed(colour=discord.Colour.blue())
-                bitrate.set_author(name=time.strftime(fmt) + " Voice Channel Bitrate Update", icon_url="http://www.hey.fr/fun/emoji/twitter/en/icon/twitter/565-emoji_twitter_speaker_with_three_sound_waves.png")
-                bitrate.set_thumbnail(url="http://www.hey.fr/fun/emoji/twitter/en/icon/twitter/565-emoji_twitter_speaker_with_three_sound_waves.png")
-                infomsg = ":loud_sound: Voice Channel bitrate update. Before: **{}** After: **{}**.".format(before.bitrate, after.bitrate)
+                bitrate.set_author(name=time.strftime(fmt) + " Voice Channel Bitrate Update",
+                                   icon_url="http://www.hey.fr/fun/emoji/twitter/en/icon/twitter/565-emoji_twitter_speaker_with_three_sound_waves.png")
+                bitrate.set_thumbnail(
+                    url="http://www.hey.fr/fun/emoji/twitter/en/icon/twitter/565-emoji_twitter_speaker_with_three_sound_waves.png")
+                infomsg = ":loud_sound: Voice Channel bitrate update. Before: **{}** After: **{}**.".format(
+                    before.bitrate, after.bitrate)
                 bitrate.add_field(name="Info:", value=infosg, inline=False)
                 try:
                     await sef.bot.send_message(server.get_channel(channel), embed=bitrate)
                 except:
                     pass
             else:
-                await self.bot.send_message(server.get_channel(channel), ":loud_sound: `{}` Channel bitrate update. Before: **{}** After: **{}**.".format(time.strftime(fmt), before.bitrate, after.bitrate))
+                await self.bot.send_message(server.get_channel(channel),
+                                            ":loud_sound: `{}` Channel bitrate update. Before: **{}** After: **{}**.".format(
+                                                time.strftime(fmt), before.bitrate, after.bitrate))
 
     async def on_message_edit(self, before, after):
         server = before.server
@@ -431,6 +474,12 @@ class ModLog:
             return
         if before.author.bot:
             return
+        cleanbefore = before.content
+        for i in before.mentions:
+            cleanbefore = cleanbefore.replace(i.mention, str(i))
+        cleanbeafter = after.content
+        for i in after.mentions:
+            cleanafter = cleanafter.replace(i.mention, str(i))
         channel = db[server.id]["Channel"]
         time = datetime.datetime.now()
         fmt = '%H:%M:%S'
@@ -438,10 +487,11 @@ class ModLog:
             name = before.author
             name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
             delmessage = discord.Embed(description=name, colour=discord.Color.green())
-            infomessage = "A message by __{}__, was edited in {}".format(before.author.nick if before.author.nick else before.author.name, before.channel.mention)
+            infomessage = "A message by __{}__, was edited in {}".format(
+                before.author.nick if before.author.nick else before.author.name, before.channel.mention)
             delmessage.add_field(name="Info:", value=infomessage, inline=False)
-            delmessage.add_field(name="Before Message:", value=before.content, inline=False)
-            delmessage.add_field(name="After Message:", value=after.content)
+            delmessage.add_field(name="Before Message:", value=cleanbefore, inline=False)
+            delmessage.add_field(name="After Message:", value=cleanafter)
             delmessage.set_footer(text="User ID: {}".format(before.author.id))
             delmessage.set_author(name=time.strftime(fmt) + " - Edited Message", url="http://i.imgur.com/Q8SzUdG.png")
             delmessage.set_thumbnail(url="http://i.imgur.com/Q8SzUdG.png")
@@ -450,9 +500,10 @@ class ModLog:
             except:
                 pass
         else:
-            msg = ":pencil: `{}` **Channel**: {} **{}'s** message has been edited.\nBefore: {}\nAfter: {}".format(time.strftime(fmt), before.channel.mention, before.author, before.content, after.content)
+            msg = ":pencil: `{}` **Channel**: {} **{}'s** message has been edited.\nBefore: {}\nAfter: {}".format(
+                time.strftime(fmt), before.channel.mention, before.author, cleanbefore, cleanafter)
             await self.bot.send_message(server.get_channel(channel),
-                                    msg)
+                                        msg)
 
     async def on_server_update(self, before, after):
         server = before
@@ -467,12 +518,12 @@ class ModLog:
         time = datetime.datetime.now()
         fmt = '%H:%M:%S'
         if before.name != after.name:
-            msg = ":globe_with_meridians: `{}` Server name update. Before: **{}** After: **{}**.".format(time.strftime(fmt), before.name, after.name)
+            msg = ":globe_with_meridians: `{}` Server name update. Before: **{}** After: **{}**.".format(
+                time.strftime(fmt), before.name, after.name)
         if before.region != after.region:
-            msg = ":globe_with_meridians: `{}` Server region update. Before: **{}** After: **{}**.".format(time.strftime(fmt), before.region, after.region)
+            msg = ":globe_with_meridians: `{}` Server region update. Before: **{}** After: **{}**.".format(
+                time.strftime(fmt), before.region, after.region)
         await self.bot.send_message(server.get_channel(channel), msg)
-            
-        
 
     async def on_voice_state_update(self, before, after):
         server = before.server
@@ -495,14 +546,18 @@ class ModLog:
             updmessage.add_field(name="Voice Channel Before:", value=before.voice_channel)
             updmessage.add_field(name="Voice Channel After:", value=after.voice_channel)
             updmessage.set_footer(text="User ID: {}".format(before.id))
-            updmessage.set_author(name=time.strftime(fmt) + " - Voice Channel Changed", url="http://i.imgur.com/8gD34rt.png")
+            updmessage.set_author(name=time.strftime(fmt) + " - Voice Channel Changed",
+                                  url="http://i.imgur.com/8gD34rt.png")
             updmessage.set_thumbnail(url="http://i.imgur.com/8gD34rt.png")
             try:
                 await self.bot.send_message(server.get_channel(channel), embed=updmessage)
             except:
                 pass
         else:
-            await self.bot.send_message(server.get_channel(channel), ":person_with_pouting_face::skin-tone-3: `{}` **{}'s** voice status has updated. **Channel**: {}\n**Local Mute:** {} **Local Deaf:** {} **Server Mute:** {} **Server Deaf:** {}".format(time.strftime(fmt), after.name, after.voice_channel, after.self_mute, after.self_deaf, after.mute, after.deaf))
+            await self.bot.send_message(server.get_channel(channel),
+                                        ":person_with_pouting_face::skin-tone-3: `{}` **{}'s** voice status has updated. **Channel**: {}\n**Local Mute:** {} **Local Deaf:** {} **Server Mute:** {} **Server Deaf:** {}".format(
+                                            time.strftime(fmt), after.name, after.voice_channel, after.self_mute,
+                                            after.self_deaf, after.mute, after.deaf))
 
     async def on_member_update(self, before, after):
         server = before.server
@@ -524,14 +579,17 @@ class ModLog:
                 updmessage.add_field(name="Nickname Before:", value=before.nick)
                 updmessage.add_field(name="Nickname After:", value=after.nick)
                 updmessage.set_footer(text="User ID: {}".format(before.id))
-                updmessage.set_author(name=time.strftime(fmt) + " - Nickname Changed", url="http://i.imgur.com/I5q71rj.png")
+                updmessage.set_author(name=time.strftime(fmt) + " - Nickname Changed",
+                                      url="http://i.imgur.com/I5q71rj.png")
                 updmessage.set_thumbnail(url="http://i.imgur.com/I5q71rj.png")
                 try:
                     await self.bot.send_message(server.get_channel(channel), embed=updmessage)
                 except:
                     pass
             else:
-                await self.bot.send_message(server.get_channel(channel), ":person_with_pouting_face::skin-tone-3: `{}` **{}** changed their nickname from **{}** to **{}**".format(time.strftime(fmt), before.name, before.kick, after.nick))
+                await self.bot.send_message(server.get_channel(channel),
+                                            ":person_with_pouting_face::skin-tone-3: `{}` **{}** changed their nickname from **{}** to **{}**".format(
+                                                time.strftime(fmt), before.name, before.kick, after.nick))
 
     async def on_member_update(self, before, after):
         server = before.server
@@ -551,16 +609,21 @@ class ModLog:
                 infomessage = "__{}__ has left the server.".format(member.nick if member.nick else member.name)
                 role.add_field(name="Info:", value=infomessage, inline=False)
                 role.set_footer(text="User ID: {}".format(member.id))
-                role.set_author(name=time.strftime(fmt) + " - Leaving User", url="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11928-outbox-tray.png")
-                role.set_thumbnail(url="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11928-outbox-tray.png")
+                role.set_author(name=time.strftime(fmt) + " - Leaving User",
+                                url="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11928-outbox-tray.png")
+                role.set_thumbnail(
+                    url="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11928-outbox-tray.png")
                 try:
                     await self.bot.send_message(server.get_channel(channel), embed=leave)
                 except:
-                    await self.bot.send_message(server.get_channel(channel), "How is embed going to work when I don't have embed links permissions?")
+                    await self.bot.send_message(server.get_channel(channel),
+                                                "How is embed going to work when I don't have embed links permissions?")
             if db[server.id]["embed"] == False:
-                msg = ":person_with_pouting_face::skin-tone-3: `{}` **{}'s** roles have changed. Old: `{}` New: `{}`".format(time.strftime(fmt), before.name, ", ".join([r.name for r in before.roles]), ", ".join([r.name for r in after.roles]))
+                msg = ":person_with_pouting_face::skin-tone-3: `{}` **{}'s** roles have changed. Old: `{}` New: `{}`".format(
+                    time.strftime(fmt), before.name, ", ".join([r.name for r in before.roles]),
+                    ", ".join([r.name for r in after.roles]))
                 await self.bot.send_message(server.get_channel(channel),
-                                        msg)
+                                            msg)
 
     async def on_member_ban(self, member):
         server = member.server
@@ -584,11 +647,12 @@ class ModLog:
             try:
                 await self.bot.send_message(server.get_channel(channel), embed=banmessage)
             except:
-                await self.bot.send_message(server.get_channel(channel), "How is embed modlog going to work when I don't have embed links permissions?")
+                await self.bot.send_message(server.get_channel(channel),
+                                            "How is embed modlog going to work when I don't have embed links permissions?")
         else:
             msg = ":hammer: `{}` {}({}) has been banned!".format(time.strftime(fmt), member, member.id)
             await self.bot.send_message(server.get_channel(channel),
-                                    msg)
+                                        msg)
 
 
 def check_folder():
