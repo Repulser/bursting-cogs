@@ -69,7 +69,7 @@ Message Examples:
         
     @welcomer.command(pass_context=True)
     async def channel(self, ctx, *, channel : discord.Channel=None):
-        """Sets the modlog channel setting."""
+        """Sets the welcomer channel settings."""
         if channel is None:
             channel = ctx.message.channel
         server = ctx.message.server
