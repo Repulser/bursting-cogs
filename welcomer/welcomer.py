@@ -230,6 +230,7 @@ Message Examples:
             if db[server.id]['botroletoggle'] is True:
                 roleobj = discord.utils.get(server.roles, id=db[server.id]['botrole'])
                 if roleobj is not None:
+                    await asyncio.sleep(3)
                     await self.bot.add_roles(member, roleobj)
         await asyncio.sleep(1)
         if db[server.id]['join'] is False:
