@@ -590,40 +590,29 @@ class ModLog:
                 await self.bot.send_message(server.get_channel(channel),
                                             ":person_with_pouting_face::skin-tone-3: `{}` **{}** changed their nickname from **{}** to **{}**".format(
                                                 time.strftime(fmt), before.name, before.kick, after.nick))
-
-    async def on_member_update(self, before, after):
-        server = before.server
-        db = fileIO(self.direct, "load")
-        if not server.id in db:
-            return
-        if db[server.id]['toggleuser'] and db[server.id]['toggleroles'] == False:
-            return
-        channel = db[server.id]["Channel"]
-        time = datetime.datetime.now()
-        fmt = '%H:%M:%S'
-        if not before.roles == after.roles:
-            if db[server.id]["embed"] == True:
-                name = member
-                name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
-                role = discord.Embed(description=name, colour=discord.Color.red())
-                infomessage = "__{}__ has left the server.".format(member.nick if member.nick else member.name)
-                role.add_field(name="Info:", value=infomessage, inline=False)
-                role.set_footer(text="User ID: {}".format(member.id))
-                role.set_author(name=time.strftime(fmt) + " - Leaving User",
-                                url="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11928-outbox-tray.png")
-                role.set_thumbnail(
-                    url="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11928-outbox-tray.png")
-                try:
-                    await self.bot.send_message(server.get_channel(channel), embed=leave)
-                except:
-                    await self.bot.send_message(server.get_channel(channel),
-                                                "How is embed going to work when I don't have embed links permissions?")
-            if db[server.id]["embed"] == False:
-                msg = ":person_with_pouting_face::skin-tone-3: `{}` **{}'s** roles have changed. Old: `{}` New: `{}`".format(
-                    time.strftime(fmt), before.name, ", ".join([r.name for r in before.roles]),
-                    ", ".join([r.name for r in after.roles]))
-                await self.bot.send_message(server.get_channel(channel),
-                                            msg)
+          if not before.roles == after.roles:
+              if db[server.id]["embed"] == True:
+                  name = member
+                  name = " ~ ".join((name.name, name.nick)) if name.nick else name.name
+                  role = discord.Embed(description=name, colour=discord.Color.red())
+                  infomessage = "__{}__ has left the server.".format(member.nick if member.nick else member.name)
+                  role.add_field(name="Info:", value=infomessage, inline=False)
+                  role.set_footer(text="User ID: {}".format(member.id))
+                  role.set_author(name=time.strftime(fmt) + " - Leaving User",
+                                  url="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11928-outbox-tray.png")
+                  role.set_thumbnail(
+                      url="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11928-outbox-tray.png")
+                  try:
+                      await self.bot.send_message(server.get_channel(channel), embed=leave)
+                  except:
+                      await self.bot.send_message(server.get_channel(channel),
+                                                  "How is embed going to work when I don't have embed links permissions?")
+              if db[server.id]["embed"] == False:
+                  msg = ":person_with_pouting_face::skin-tone-3: `{}` **{}'s** roles have changed. Old: `{}` New: `{}`".format(
+                      time.strftime(fmt), before.name, ", ".join([r.name for r in before.roles]),
+                      ", ".join([r.name for r in after.roles]))
+                  await self.bot.send_message(server.get_channel(channel),
+                                              msg)
 
     async def on_member_ban(self, member):
         server = member.server
