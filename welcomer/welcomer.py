@@ -55,6 +55,7 @@ Message Examples:
         role = discord.utils.get(ctx.message.server.roles, id=db[server.id]["botrole"])
         e.set_author(name="Settings for " + server.name, icon_url=server.icon_url)
         e.add_field(name="Welcomer Channel:", value="#" + self.bot.get_channel(db[server.id]["Channel"]).name if self.bot.get_channel(db[server.id]["Channel"]) else None, inline=True)
+        e.add_field(name="Delay:", value=db[server.id]["messagedelay"], inline=True)
         e.add_field(name="Join Toggle:", value=db[server.id]["join"], inline=True)
         e.add_field(name="Leave Toggle:", value=db[server.id]["leave"], inline=True)
         e.add_field(name="Bot Role:", value=role.name if role else None)
