@@ -6,7 +6,7 @@ from discord.ext import commands
 from random import choice, randint
 from cogs.utils.dataIO import fileIO
 
-settings = {"Channel": None, "Embed" : False, "joinmessage": None, "leavemessage": None, "leave": False, "botroletoggle": False, "botrole" : None, "join": False "messagedelay": 1, "Invites": {}}
+settings = {"Channel": None, "Embed" : False, "joinmessage": None, "leavemessage": None, "leave": False, "botroletoggle": False, "botrole" : None, "join": False, "messagedelay": 1, "Invites": {}}
 
 class Welcomer:
     def __init__(self, bot):
