@@ -6,7 +6,7 @@ from discord.ext import commands
 from random import choice, randint
 from cogs.utils.dataIO import fileIO
 
-settings = {"Channel": None, "Embed" : False, "joinmessage": None, "leavemessage": None, "leave": False, "botroletoggle": False, "botrole" : None, "join": False, "Invites": {}}
+settings = {"Channel": None, "Embed" : False, "joinmessage": None, "leavemessage": None, "leave": False, "botroletoggle": False, "botrole" : None, "join": False "messagedelay": 1, "Invites": {}}
 
 class Welcomer:
     def __init__(self, bot):
@@ -141,6 +141,23 @@ Message Examples:
             await self.bot.say("The bot role has been set.")
         else:
             await self.bot.say("I do not have the `manage_roles` permission!")
+            
+    @welcomer.command(name="delay", pass_context=True)
+    async def messagedelay(self, ctx, delay : int):
+        """Sets the welcomer bot join message delay in seconds."""
+        server = ctx.message.server
+        db = fileIO(self.load, "load")
+        if ctx.message.server.id not in db:
+            await self.bot.say(":x: **Please set the channel you want me to send welcoming and leaving messages to with `welcomer channel #channel_name` then you may proceed to setting this message..**")
+            return
+        if db[server.id]['messagedelay'] is not None:
+            db[server.id]['messagedelay'] = delay
+            fileIO(self.load, "save", db)
+            await self.bot.say("message delay has been changed.")
+        elif db[server.id]["messagedelay"] is None:
+            db[server.id]['messagedelay'] = delay
+            fileIO(self.load, "save", db)
+            await self.bot.say("message delay has been set.")
         
     @welcomer.command(pass_context=True)
     async def botroletoggle(self, ctx):
@@ -224,6 +241,10 @@ Message Examples:
     async def on_member_join(self, member):
         server = member.server
         db = fileIO(self.load, "load")
+        if db[server.id]['messagedelay'] is None:
+            messagedelay = 1
+        else:
+            messagedelay = db[server.id]['messagedelay']
         if not server.id in db:
             return
         if member.bot:
@@ -250,8 +271,10 @@ Message Examples:
                                              description=message.format(member, a, server),
                                              colour=discord.Colour(value=color))
                         data.set_thumbnail(url=member.avatar_url)
+                        await asyncio.sleep(messagedelay)
                         await self.bot.send_message(server.get_channel(channel), embed=data)
                     else:
+                        await asyncio.sleep(messagedelay)
                         await self.bot.send_message(server.get_channel(channel), message.format(member, a, server))
                     break
             except KeyError:
@@ -260,8 +283,10 @@ Message Examples:
                                              description=message.format(member, a, server),
                                              colour=discord.Colour(value=color))
                     data.set_thumbnail(url=member.avatar_url)
+                    await asyncio.sleep(messagedelay)
                     await self.bot.send_message(server.get_channel(channel), embed=data)
                 else:
+                    await asyncio.sleep(messagedelay)
                     await self.bot.send_message(server.get_channel(channel), message.format(member, a, server))
                 break
         invlist = await self.bot.invites_from(server)
